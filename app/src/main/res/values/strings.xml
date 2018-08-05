@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Vianderito</string>
+    <string name="tagline">No more punching</string>
+    <string name="get_started">Get Started</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="sign_in">Sign in</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+</resources>

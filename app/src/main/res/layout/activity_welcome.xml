@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaryWelcome"
+    tools:context=".WelcomeActivity">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/vianderito_icon_with_text"/>
+
+    <Button
+        android:id="@+id/button_get_started"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:text="@string/get_started"
+        android:stateListAnimator="@null"
+        android:background="@drawable/button_get_started"
+        android:textColor="#fff"/>
+
+    <RelativeLayout
+        android:id="@+id/view_get_started"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="@color/primaryGetStarted"
+        android:visibility="invisible">
+
+        <fragment
+            android:id="@+id/fragment_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.raphaelmarco.vianderito.LoginFragment" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#54a3d3</color>
+    <color name="primaryLight">#66c4ff</color>
+
+    <color name="secondary">#4289a5</color>
+    <color name="secondaryLight">#54aed1</color>
+
+    <color name="tertiary">#81cfe0</color>
+
+    <color name="accent">#FF4081</color>
+
+    <color name="primaryWelcome">#272932</color>
+    <color name="primaryLightWelcome">#636680</color>
+
+    <color name="primaryGetStarted">#3c3f4d</color>
+    <color name="primaryLightGetStarted">#636980</color>
+</resources>
