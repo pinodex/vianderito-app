@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryGetStarted"
-    tools:context=".LoginFragment">
+    android:background="@color/primaryDarkerGetStarted"
+    tools:context=".SignupFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,10 +17,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_in"
+            android:text="@string/sign_up"
             android:textColor="#fff"
             android:textSize="36sp"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="30dp"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/secondary">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:inputType="textPersonName"
+                android:hint="@string/name" />
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -38,7 +51,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/secondary"    >
+            android:textColorHint="@color/secondary">
 
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
@@ -53,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/sign_in"
+            android:text="@string/sign_up"
             android:stateListAnimator="@null"
             android:background="@drawable/button_sign_in"
             android:textColor="#fff"/>

@@ -30,15 +30,38 @@
         android:id="@+id/view_get_started"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:background="@color/primaryGetStarted"
         android:visibility="invisible">
 
-        <fragment
-            android:id="@+id/fragment_login"
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginStart="50dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/vianderito_full"
+            android:elevation="1dp" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/action_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="com.raphaelmarco.vianderito.LoginFragment" />
+            android:layout_height="match_parent">
+
+            <!--
+            <fragment
+                android:id="@+id/fragment_login_old"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:name="com.raphaelmarco.vianderito.LoginFragment" />
+
+            <fragment
+                android:id="@+id/fragment_signup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:name="com.raphaelmarco.vianderito.SignUpFragment" />
+                -->
+        </android.support.v4.view.ViewPager>
 
     </RelativeLayout>
 
