@@ -57,6 +57,15 @@
             android:stateListAnimator="@null"
             android:background="@drawable/button_sign_in"
             android:textColor="#fff"/>
+
+        <TextView
+            android:id="@+id/create_account_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_account"
+            android:padding="10dp"
+            android:textColor="#fff"
+            android:textAlignment="center" />
     </LinearLayout>
 
 </ScrollView>

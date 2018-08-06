@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.raphaelmarco.vianderito.transformer.ZoomOutPageTransformer;
 
@@ -76,6 +77,11 @@ public class WelcomeActivity extends AppCompatActivity implements
 
     }
 
+    @Override
+    public void onCreateAccountLinkClick() {
+        viewPager.setCurrentItem(1);
+    }
+
     private void toggleGetStartedScreen() {
         int cx, cy;
         float startRadius, finalRadius;
@@ -95,7 +101,7 @@ public class WelcomeActivity extends AppCompatActivity implements
                 startRadius, finalRadius);
 
         anim.setInterpolator(new AccelerateDecelerateInterpolator());
-        anim.setDuration(700);
+        anim.setDuration(500);
 
         anim.addListener(new AnimatorListenerAdapter() {
             @Override

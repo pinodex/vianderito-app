@@ -3,14 +3,19 @@ package com.raphaelmarco.vianderito;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class LoginFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    private TextView txtCreateAccountLink;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -28,11 +33,20 @@ public class LoginFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        txtCreateAccountLink = view.findViewById(R.id.create_account_link);
+
+        txtCreateAccountLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mListener != null) {
+                    mListener.onCreateAccountLinkClick();
+                }
+            }
+        });
     }
 
     @Override
@@ -63,7 +77,6 @@ public class LoginFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onCreateAccountLinkClick();
     }
 }
