@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.raphaelmarco.vianderito.transformer.ZoomOutPageTransformer;
@@ -29,6 +30,8 @@ public class WelcomeActivity extends AppCompatActivity implements
 
     private Fragment loginFragment, registerFragment;
 
+    private ProgressBar progressBar;
+
     private boolean isGetStartedScreenOpened = false;
 
     @Override
@@ -43,6 +46,7 @@ public class WelcomeActivity extends AppCompatActivity implements
         btnGetStarted = findViewById(R.id.button_get_started);
         viewGetStarted = findViewById(R.id.view_get_started);
         viewPager = findViewById(R.id.action_viewpager);
+        progressBar = findViewById(R.id.progress_bar);
 
         viewPager.setAdapter(new WelcomeFragmentPagerAdapter(getSupportFragmentManager()));
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
@@ -73,13 +77,18 @@ public class WelcomeActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
+    public void onCreateAccountLinkClick() {
+        viewPager.setCurrentItem(1);
     }
 
     @Override
-    public void onCreateAccountLinkClick() {
-        viewPager.setCurrentItem(1);
+    public void onProgressStart() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onProgressStop() {
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void toggleGetStartedScreen() {

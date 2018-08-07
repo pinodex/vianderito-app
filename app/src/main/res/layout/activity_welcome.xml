@@ -33,6 +33,17 @@
         android:background="@color/primaryGetStarted"
         android:visibility="invisible">
 
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-5dp"
+            android:elevation="1dp"
+            android:indeterminate="true"
+            android:fitsSystemWindows="true"
+            android:visibility="invisible" />
+
         <ImageView
             android:id="@+id/logo"
             android:layout_width="72dp"
@@ -46,22 +57,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/action_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!--
-            <fragment
-                android:id="@+id/fragment_login_old"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:name="com.raphaelmarco.vianderito.LoginFragment" />
-
-            <fragment
-                android:id="@+id/fragment_signup"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:name="com.raphaelmarco.vianderito.SignUpFragment" />
-                -->
-        </android.support.v4.view.ViewPager>
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
 
