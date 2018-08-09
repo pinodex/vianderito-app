@@ -146,7 +146,7 @@ public class WelcomeActivity extends AppCompatActivity implements AuthFragmentIn
                     return;
                 }
 
-                btnGetStarted.setVisibility(View.INVISIBLE);
+                btnGetStarted.setVisibility(View.VISIBLE);
             }
 
             @Override
