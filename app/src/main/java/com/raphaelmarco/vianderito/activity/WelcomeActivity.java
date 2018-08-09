@@ -20,8 +20,14 @@ import com.raphaelmarco.vianderito.fragment.AuthFragmentInteractionListener;
 import com.raphaelmarco.vianderito.fragment.LoginFragment;
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.fragment.SignupFragment;
+import com.raphaelmarco.vianderito.network.RetrofitClient;
 import com.raphaelmarco.vianderito.network.model.auth.User;
+import com.raphaelmarco.vianderito.network.service.AuthService;
 import com.raphaelmarco.vianderito.transformers.ZoomOutPageTransformer;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class WelcomeActivity extends AppCompatActivity implements AuthFragmentInteractionListener {
 
@@ -35,7 +41,13 @@ public class WelcomeActivity extends AppCompatActivity implements AuthFragmentIn
 
     private ProgressBar progressBar;
 
+    private AuthService authService;
+
     private boolean isGetStartedScreenOpened = false;
+
+    public WelcomeActivity() {
+        authService = RetrofitClient.getInstance().create(AuthService.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +66,21 @@ public class WelcomeActivity extends AppCompatActivity implements AuthFragmentIn
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         viewPager.setAdapter(new WelcomeFragmentPagerAdapter(getSupportFragmentManager()));
 
+        btnGetStarted.setVisibility(View.INVISIBLE);
+
         btnGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggleGetStartedScreen();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        checkSession();
     }
 
     @Override
@@ -86,6 +107,8 @@ public class WelcomeActivity extends AppCompatActivity implements AuthFragmentIn
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         startActivity(intent);
+
+        finish();
     }
 
     @Override
@@ -111,6 +134,28 @@ public class WelcomeActivity extends AppCompatActivity implements AuthFragmentIn
         intent.putExtra("user", serializedUser);
 
         startActivity(intent);
+    }
+
+    private void checkSession() {
+        authService.me().enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    onLoginCompleted(response.body());
+
+                    return;
+                }
+
+                btnGetStarted.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                t.printStackTrace();
+
+                btnGetStarted.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void toggleGetStartedScreen() {

@@ -8,15 +8,13 @@
     </style>
 
     <style name="AppTheme.Welcome" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/window_background</item>
+
         <item name="colorPrimary">@color/primaryWelcome</item>
 
         <item name="android:windowTranslucentStatus">true</item>
         <item name="colorControlNormal">@color/tertiary</item>
         <item name="colorControlActivated">@color/tertiary</item>
-    </style>
-
-    <style name="AppTheme.GetStarted" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primaryGetStarted</item>
     </style>
 
 </resources>
