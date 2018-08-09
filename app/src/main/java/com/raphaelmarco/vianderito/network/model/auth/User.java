@@ -1,4 +1,4 @@
-package com.raphaelmarco.vianderito.model.auth;
+package com.raphaelmarco.vianderito.network.model.auth;
 
 import com.google.gson.annotations.SerializedName;
 import com.raphaelmarco.vianderito.binding.SignUpData;

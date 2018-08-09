@@ -1,4 +1,4 @@
-package com.raphaelmarco.vianderito.transformer;
+package com.raphaelmarco.vianderito.transformers;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;

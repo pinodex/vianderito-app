@@ -1,7 +1,8 @@
-package com.raphaelmarco.vianderito.model;
+package com.raphaelmarco.vianderito.network.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,8 +11,10 @@ import retrofit2.Response;
 
 public class ValidationError {
 
+    @SerializedName("message")
     private String message;
 
+    @SerializedName("errors")
     private HashMap<String, String[]> errors;
 
     public String getMessage() {

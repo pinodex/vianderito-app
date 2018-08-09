@@ -4,6 +4,8 @@ import android.os.Build;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pixplicity.easyprefs.library.Prefs;
+import com.raphaelmarco.vianderito.Vianderito;
 
 import java.io.IOException;
 
@@ -16,11 +18,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    public static final String BASE_URL_PROD = "http://192.168.43.147:8000/api/v1/";
+    private static final String BASE_URL_PROD = "http://192.168.43.147:8000/api/v1/";
 
-    public static final String BASE_URL_DEV = "http://10.0.2.2:8000/api/v1/";
+    private static final String BASE_URL_DEV = "http://10.0.2.2:8000/api/v1/";
 
-    protected static Retrofit retrofit;
+    private static Retrofit retrofit;
+
+    private static String getJwtToken() {
+        return Prefs.getString(Vianderito.JWT_TOKEN_ID, "");
+    }
 
     public static Retrofit getInstance() {
         String base = BASE_URL_PROD;
@@ -42,8 +48,9 @@ public class RetrofitClient {
 
                     requestBuilder
                             .header("Content-Type", "application/json")
-                            .header("Accept", "application/json");
-
+                            .header("Accept", "application/json")
+                            .header("Authorization",
+                                    String.format("Bearer %s", getJwtToken()));
 
                     return chain.proceed(requestBuilder.build());
                 }

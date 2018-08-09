@@ -1,8 +1,8 @@
-package com.raphaelmarco.vianderito;
+package com.raphaelmarco.vianderito.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.net.Uri;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,9 +14,13 @@ import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.raphaelmarco.vianderito.transformer.ZoomOutPageTransformer;
+import com.google.gson.Gson;
+import com.raphaelmarco.vianderito.fragment.LoginFragment;
+import com.raphaelmarco.vianderito.R;
+import com.raphaelmarco.vianderito.fragment.SignupFragment;
+import com.raphaelmarco.vianderito.network.model.auth.User;
+import com.raphaelmarco.vianderito.transformers.ZoomOutPageTransformer;
 
 public class WelcomeActivity extends AppCompatActivity implements
         LoginFragment.OnFragmentInteractionListener,
@@ -48,8 +52,8 @@ public class WelcomeActivity extends AppCompatActivity implements
         viewPager = findViewById(R.id.action_viewpager);
         progressBar = findViewById(R.id.progress_bar);
 
-        viewPager.setAdapter(new WelcomeFragmentPagerAdapter(getSupportFragmentManager()));
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        viewPager.setAdapter(new WelcomeFragmentPagerAdapter(getSupportFragmentManager()));
 
         btnGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +93,16 @@ public class WelcomeActivity extends AppCompatActivity implements
     @Override
     public void onProgressStop() {
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onRequireSmsVerification(User user) {
+        String serializedUser = new Gson().toJson(user);
+        Intent intent = new Intent(this, SmsVerifyActivity.class);
+
+        intent.putExtra("user", serializedUser);
+
+        startActivity(intent);
     }
 
     private void toggleGetStartedScreen() {
@@ -131,7 +145,7 @@ public class WelcomeActivity extends AppCompatActivity implements
 
     private class WelcomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        public WelcomeFragmentPagerAdapter(FragmentManager fm) {
+        WelcomeFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
