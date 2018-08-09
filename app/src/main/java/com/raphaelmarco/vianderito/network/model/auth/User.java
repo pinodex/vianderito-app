@@ -25,6 +25,9 @@ public class User {
     @SerializedName("phone_number")
     private String phoneNumber;
 
+    @SerializedName("is_verified")
+    private boolean isVerified;
+
     @SerializedName("created_at")
     private Date createdAt;
 
@@ -32,10 +35,13 @@ public class User {
     private Date updatedAt;
 
     public User(SignUpData data) {
-        this.setName(data.name.get());
-        this.setUsername(data.username.get());
-        this.setPassword(data.password.get());
-        this.setPhoneNumber(data.phoneNumber.get());
+        setName(data.name.get());
+
+        setUsername(data.username.get());
+
+        setPassword(data.password.get());
+
+        setPhoneNumber(data.phoneNumber.get());
     }
 
     public String getId() {
@@ -84,6 +90,14 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
     }
 
     public Date getCreatedAt() {

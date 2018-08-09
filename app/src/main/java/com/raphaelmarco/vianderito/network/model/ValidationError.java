@@ -35,7 +35,7 @@ public class ValidationError {
 
     public static class Parser {
 
-        protected Response response;
+        private Response response;
 
         public Parser(Response response) {
             this.response = response;

@@ -32,7 +32,7 @@ import retrofit2.Response;
 
 public class SignupFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private AuthFragmentInteractionListener mListener;
 
     private ValidationErrorData validationError;
 
@@ -140,11 +140,11 @@ public class SignupFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof AuthFragmentInteractionListener) {
+            mListener = (AuthFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement AuthFragmentInteractionListener");
         }
     }
 
@@ -162,14 +162,6 @@ public class SignupFragment extends Fragment {
     private void disableLoadingState() {
         mListener.onProgressStop();
         ui.isFormEnabled.set(true);
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onProgressStart();
-
-        void onProgressStop();
-
-        void onRequireSmsVerification(User user);
     }
 
     public class UiData extends BaseObservable {

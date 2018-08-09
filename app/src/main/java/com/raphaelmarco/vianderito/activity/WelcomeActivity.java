@@ -16,15 +16,14 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
+import com.raphaelmarco.vianderito.fragment.AuthFragmentInteractionListener;
 import com.raphaelmarco.vianderito.fragment.LoginFragment;
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.fragment.SignupFragment;
 import com.raphaelmarco.vianderito.network.model.auth.User;
 import com.raphaelmarco.vianderito.transformers.ZoomOutPageTransformer;
 
-public class WelcomeActivity extends AppCompatActivity implements
-        LoginFragment.OnFragmentInteractionListener,
-        SignupFragment.OnFragmentInteractionListener {
+public class WelcomeActivity extends AppCompatActivity implements AuthFragmentInteractionListener {
 
     private Button btnGetStarted;
 
@@ -78,6 +77,15 @@ public class WelcomeActivity extends AppCompatActivity implements
         }
 
         super.onBackPressed();
+    }
+
+    @Override
+    public void onLoginCompleted(User user) {
+        Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        startActivity(intent);
     }
 
     @Override

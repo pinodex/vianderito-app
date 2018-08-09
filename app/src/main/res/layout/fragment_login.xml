@@ -1,71 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/primaryGetStarted"
-    tools:context=".fragment.LoginFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <data>
+        <variable
+            name="user"
+            type="com.raphaelmarco.vianderito.binding.LoginData" />
+        <variable
+            name="validationError"
+            type="com.raphaelmarco.vianderito.binding.ValidationErrorData" />
+        <variable
+            name="ui"
+            type="com.raphaelmarco.vianderito.fragment.LoginFragment.UiData" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="200dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp">
+        android:layout_height="match_parent"
+        android:background="@color/primaryGetStarted"
+        tools:context=".fragment.LoginFragment">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_in"
-            android:textColor="#fff"
-            android:textSize="36sp"
-            android:layout_marginBottom="50dp"/>
-
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/secondary">
+            android:orientation="vertical"
+            android:layout_marginTop="200dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp">
 
-            <android.support.design.widget.TextInputEditText
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_in"
+                android:textColor="#fff"
+                android:textSize="36sp"
+                android:layout_marginBottom="50dp"/>
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#fff"
-                android:inputType="textEmailAddress"
-                android:hint="@string/username" />
-        </android.support.design.widget.TextInputLayout>
+                android:textColorHint="@color/secondary">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/secondary"    >
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:inputType="textEmailAddress"
+                    android:text="@={user.id}"
+                    android:hint="@string/username" />
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:textColorHint="@color/secondary"    >
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textColor="#fff"
+                    android:text="@={user.password}"
+                    app:error='@{validationError.message}'
+                    android:hint="@string/password" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/sign_in"
+                android:stateListAnimator="@null"
+                android:background="@drawable/button_sign_in"
+                android:textColor="#fff"/>
+
+            <TextView
+                android:id="@+id/create_account_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/create_account"
+                android:padding="10dp"
                 android:textColor="#fff"
-                android:hint="@string/password" />
-        </android.support.design.widget.TextInputLayout>
+                android:textAlignment="center" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/sign_in"
-            android:stateListAnimator="@null"
-            android:background="@drawable/button_sign_in"
-            android:textColor="#fff"/>
-
-        <TextView
-            android:id="@+id/create_account_link"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/create_account"
-            android:padding="10dp"
-            android:textColor="#fff"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-</ScrollView>
+    </ScrollView>
+</layout>

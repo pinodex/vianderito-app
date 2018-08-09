@@ -1,7 +1,9 @@
 package com.raphaelmarco.vianderito.fragment;
 
 import android.content.Context;
-import android.net.Uri;
+import android.databinding.BaseObservable;
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,16 +11,44 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.pixplicity.easyprefs.library.Prefs;
 import com.raphaelmarco.vianderito.R;
+import com.raphaelmarco.vianderito.Vianderito;
+import com.raphaelmarco.vianderito.binding.LoginData;
+import com.raphaelmarco.vianderito.binding.ValidationErrorData;
+import com.raphaelmarco.vianderito.databinding.FragmentLoginBinding;
+import com.raphaelmarco.vianderito.network.RetrofitClient;
+import com.raphaelmarco.vianderito.network.model.ValidationError;
+import com.raphaelmarco.vianderito.network.model.auth.User;
+import com.raphaelmarco.vianderito.network.model.auth.UserCredentials;
+import com.raphaelmarco.vianderito.network.model.auth.UserLogin;
+import com.raphaelmarco.vianderito.network.service.AuthService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private AuthFragmentInteractionListener mListener;
+
+    private UiData ui;
+
+    private LoginData user;
+
+    private ValidationErrorData validationError;
+
+    private AuthService authService;
 
     public LoginFragment() {
-        // Required empty public constructor
+        ui = new UiData();
+        user = new LoginData();
+        validationError = new ValidationErrorData();
+
+        authService = RetrofitClient.getInstance().create(AuthService.class);
     }
 
     @Override
@@ -29,8 +59,18 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        FragmentLoginBinding binding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_login, container, false);
+
+        View view = binding.getRoot();
+
+        binding.setUser(user);
+        binding.setValidationError(validationError);
+        binding.setUi(ui);
+
+        disableLoadingState();
+
+        return view;
     }
 
     @Override
@@ -47,16 +87,60 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
+
+        Button btnLogin = view.findViewById(R.id.btn_login);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                enableLoadingState();
+
+                final UserCredentials data = new UserCredentials(user);
+
+                authService.login(data).enqueue(new Callback<UserLogin>() {
+                    @Override
+                    public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
+                        disableLoadingState();
+
+                        if (!response.isSuccessful()) {
+                            validationError.fill(new ValidationError.Parser(response).parse());
+
+                            return;
+                        }
+
+                        UserLogin userLogin = response.body();
+                        User user = userLogin.getUser();
+
+                        Prefs.putString(Vianderito.JWT_TOKEN_ID, userLogin.getAccessToken());
+
+                        if (!user.isVerified()) {
+                            mListener.onRequireSmsVerification(user);
+
+                            return;
+                        }
+
+                        mListener.onLoginCompleted(user);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserLogin> call, Throwable t) {
+                        t.printStackTrace();
+
+                        disableLoadingState();
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof AuthFragmentInteractionListener) {
+            mListener = (AuthFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement AuthFragmentInteractionListener");
         }
     }
 
@@ -66,7 +150,19 @@ public class LoginFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        void onCreateAccountLinkClick();
+    private void enableLoadingState() {
+        mListener.onProgressStart();
+        ui.isFormEnabled.set(false);
+    }
+
+    private void disableLoadingState() {
+        mListener.onProgressStop();
+        ui.isFormEnabled.set(true);
+    }
+
+    public class UiData extends BaseObservable {
+
+        public ObservableField<Boolean> isFormEnabled = new ObservableField<>();
+
     }
 }
