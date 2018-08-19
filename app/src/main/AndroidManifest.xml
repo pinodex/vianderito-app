@@ -26,7 +26,8 @@
         <activity
             android:name=".activity.SmsVerifyActivity"
             android:theme="@style/AppTheme.Welcome" />
-        <activity android:name=".activity.HomeActivity"></activity>
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.DocumentActivity" />
     </application>
 
 </manifest>

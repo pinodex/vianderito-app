@@ -19,13 +19,17 @@
     <string name="next">Next</string>
     <string name="next_other">Continue</string>
 
+    <string name="store">Store</string>
+    <string name="cart">Cart</string>
+    <string name="account">Account</string>
+
     <string name="verify_phone_message">
         To start using Vianderito, please verify your phone number by entering the
         code that was sent to %1$s.
     </string>
 
     <string name="signup_agreement_message">
-        By signing up, you agree to our <a href="#">Terms of Service</a>
-        and acknowledge our <a href="#">Privacy Policy</a>.
+        By signing up, you agree to Terms of Service
+        and acknowledge our Privacy Policy.
     </string>
 </resources>

@@ -104,8 +104,6 @@ public class WelcomeActivity extends AppCompatActivity implements AuthFragmentIn
     public void onLoginCompleted(User user) {
         Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
         startActivity(intent);
 
         finish();
