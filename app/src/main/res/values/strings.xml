@@ -32,4 +32,7 @@
         By signing up, you agree to Terms of Service
         and acknowledge our Privacy Policy.
     </string>
+
+    <string name="product_image">Product Image</string>
+    <string name="peso_price">P%.2f</string>
 </resources>
