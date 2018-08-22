@@ -14,6 +14,11 @@ public interface StoreService {
 
     @GET("store/products")
     Call<Paginated<Product>> getProducts(@Query("page") int page,
+                                         @Query("per_page") int perPage);
+
+    @GET("store/products")
+    Call<Paginated<Product>> getProducts(@Query("page") int page,
+                                         @Query("per_page") int perPage,
                                          @Query("name") String name,
                                          @Query("manufacturer_id") String manufacturerId,
                                          @Query("category_id") String categoryId,

@@ -35,4 +35,5 @@
 
     <string name="product_image">Product Image</string>
     <string name="peso_price">P%.2f</string>
+    <string name="out_of_stock">Out of stock</string>
 </resources>

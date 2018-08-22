@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.StoreFragment">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <GridView
-        android:id="@+id/product_grid"
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="ui"
+            type="com.raphaelmarco.vianderito.fragment.StoreFragment.UiData" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2"
-        android:scrollbarStyle="outsideOverlay"
-        android:padding="10dp"
-        android:clipToPadding="false"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp" />
+        tools:context=".fragment.StoreFragment">
 
-</FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/product_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:elevation="1dp"
+            android:indeterminate="true"
+            android:fitsSystemWindows="true"
+            android:visibility="@{ui.isProductsLoading ? View.VISIBLE : View.INVISIBLE}"/>
+
+    </RelativeLayout>
+</layout>
