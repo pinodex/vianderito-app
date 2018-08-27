@@ -5,7 +5,6 @@ import android.content.ContextWrapper;
 import android.util.Log;
 
 import com.pixplicity.easyprefs.library.Prefs;
-import com.raphaelmarco.vianderito.debug.AppSignatureHelper;
 
 public class Vianderito extends Application {
 
@@ -21,9 +20,5 @@ public class Vianderito extends Application {
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
-
-        AppSignatureHelper appSignatureHelper = new AppSignatureHelper(this);
-
-        Log.d("SIGN", appSignatureHelper.getAppSignatures().toString());
     }
 }

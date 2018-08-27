@@ -58,12 +58,7 @@ public class SignupFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         FragmentSignupBinding binding = DataBindingUtil.inflate(inflater,
@@ -158,7 +153,7 @@ public class SignupFragment extends Fragment {
 
             authService.register(data).enqueue(new Callback<User>() {
                 @Override
-                public void onResponse(Call<User> call, Response<User> response) {
+                public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                     disableLoadingState();
 
                     if (response.code() == 422) {
@@ -176,7 +171,7 @@ public class SignupFragment extends Fragment {
 
                     authService.login(credentials).enqueue(new Callback<UserLogin>() {
                         @Override
-                        public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
+                        public void onResponse(@NonNull Call<UserLogin> call, @NonNull Response<UserLogin> response) {
                             disableLoadingState();
 
                             if (response.isSuccessful()) {
@@ -188,7 +183,7 @@ public class SignupFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<UserLogin> call, Throwable t) {
+                        public void onFailure(@NonNull Call<UserLogin> call, @NonNull Throwable t) {
                             t.printStackTrace();
 
                             disableLoadingState();
@@ -197,7 +192,7 @@ public class SignupFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<User> call, Throwable t) {
+                public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                     t.printStackTrace();
 
                     disableLoadingState();

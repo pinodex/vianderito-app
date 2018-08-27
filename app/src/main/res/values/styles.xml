@@ -21,6 +21,8 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/secondary</item>
         <item name="colorAccent">@color/yellow</item>
+
+        <item name="cardViewStyle">@style/CardView</item>
     </style>
 
 </resources>

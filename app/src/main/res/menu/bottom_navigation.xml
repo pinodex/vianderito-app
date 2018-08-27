@@ -3,15 +3,15 @@
     <item
         android:id="@+id/store"
         android:title="@string/store"
-        android:icon="@drawable/baseline_store_24" />
+        android:icon="@drawable/ic_store" />
 
     <item
         android:id="@+id/cart"
         android:title="@string/cart"
-        android:icon="@drawable/baseline_shopping_cart_24" />
+        android:icon="@drawable/ic_shopping_cart" />
 
     <item
         android:id="@+id/account"
         android:title="@string/account"
-        android:icon="@drawable/baseline_perm_identity_24" />
+        android:icon="@drawable/ic_identity" />
 </menu>

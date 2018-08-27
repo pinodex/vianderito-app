@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="ui"
             type="com.raphaelmarco.vianderito.activity.HomeActivity.UiData" />
@@ -25,13 +27,46 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@{ui.pageTitle}"
-                android:textSize="16sp"
-                android:textColor="@color/white" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_vianderito_text"
+                    android:scaleType="fitCenter"
+                    android:visibility="@{ui.isHome ? View.VISIBLE : View.INVISIBLE}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@{ui.pageTitle}"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:visibility="@{ui.isHome ? View.INVISIBLE : View.VISIBLE}"/>
+
+                <FrameLayout
+                    android:id="@+id/search_button"
+                    android:layout_width="36dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="@{ui.isHome ? View.VISIBLE : View.INVISIBLE}">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_search"
+                        android:contentDescription="@string/search"
+                        android:tint="@color/white" />
+                </FrameLayout>
+            </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 
         <FrameLayout

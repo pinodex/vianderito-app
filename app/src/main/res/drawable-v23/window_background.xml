@@ -5,9 +5,6 @@
     <item
         android:height="250dp"
         android:width="250dp"
-        android:gravity="center">
-
-        <bitmap
-            android:src="@drawable/vianderito_icon_with_text" />
-    </item>
+        android:gravity="center"
+        android:drawable="@drawable/ic_vianderito_with_text" />
 </layer-list>

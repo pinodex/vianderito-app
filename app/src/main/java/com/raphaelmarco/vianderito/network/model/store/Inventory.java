@@ -1,6 +1,5 @@
 package com.raphaelmarco.vianderito.network.model.store;
 
-import java.util.Currency;
 import java.util.Date;
 
 public class Inventory {

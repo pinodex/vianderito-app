@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -98,12 +99,12 @@ public class SmsVerifyActivity extends AppCompatActivity {
 
         verifyService.start(user).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 disableLoadingState();
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 t.printStackTrace();
 
                 disableLoadingState();
@@ -117,7 +118,7 @@ public class SmsVerifyActivity extends AppCompatActivity {
 
         verifyService.verify(verify).enqueue(new Callback<GenericMessage>() {
             @Override
-            public void onResponse(Call<GenericMessage> call, Response<GenericMessage> response) {
+            public void onResponse(@NonNull Call<GenericMessage> call, @NonNull Response<GenericMessage> response) {
                 disableLoadingState();
 
                 if (response.isSuccessful()) {
@@ -136,7 +137,7 @@ public class SmsVerifyActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<GenericMessage> call, Throwable t) {
+            public void onFailure(@NonNull Call<GenericMessage> call, @NonNull Throwable t) {
                 t.printStackTrace();
 
                 disableLoadingState();

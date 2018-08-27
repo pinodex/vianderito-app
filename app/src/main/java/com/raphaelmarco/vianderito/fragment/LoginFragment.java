@@ -52,12 +52,7 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentLoginBinding binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_login, container, false);
@@ -99,7 +94,7 @@ public class LoginFragment extends Fragment {
 
                 authService.login(data).enqueue(new Callback<UserLogin>() {
                     @Override
-                    public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
+                    public void onResponse(@NonNull Call<UserLogin> call, @NonNull Response<UserLogin> response) {
                         disableLoadingState();
 
                         if (!response.isSuccessful()) {
@@ -123,7 +118,7 @@ public class LoginFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<UserLogin> call, Throwable t) {
+                    public void onFailure(@NonNull Call<UserLogin> call, @NonNull Throwable t) {
                         t.printStackTrace();
 
                         disableLoadingState();

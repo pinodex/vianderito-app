@@ -1,6 +1,7 @@
 package com.raphaelmarco.vianderito.activity;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.databinding.ActivityHomeBinding;
@@ -49,10 +51,18 @@ public class HomeActivity extends AppCompatActivity {
         storeFragment = new StoreFragment();
         cartFragment = new CartFragment();
 
+        // Show StoreFragment for initial page
         active = storeFragment;
 
         fm.beginTransaction().add(frameId, cartFragment, "2").hide(cartFragment).commit();
         fm.beginTransaction().add(frameId, storeFragment, "1").commit();
+
+        findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((StoreFragment) storeFragment).toggleSearchMode();
+            }
+        });
 
         setPageTitle(R.string.store);
     }
@@ -66,6 +76,8 @@ public class HomeActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            ((StoreFragment) storeFragment).disableSearchMode();
+
             switch (menuItem.getItemId()) {
                 case R.id.store:
                     fm.beginTransaction().hide(active).show(storeFragment).commit();
@@ -94,6 +106,10 @@ public class HomeActivity extends AppCompatActivity {
 
         public ObservableField<String> pageTitle = new ObservableField<>();
 
+        @Bindable({"pageTitle"})
+        public Boolean getIsHome() {
+            return pageTitle.get().equals(getResources().getString(R.string.store));
+        }
     }
 }
 

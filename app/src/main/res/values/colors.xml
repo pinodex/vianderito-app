@@ -4,6 +4,7 @@
 
     <color name="primary">#54a3d3</color>
     <color name="primaryLight">#66c4ff</color>
+    <color name="primaryDark">#529dcc</color>
 
     <color name="secondary">#4289a5</color>
     <color name="secondaryLight">#54aed1</color>

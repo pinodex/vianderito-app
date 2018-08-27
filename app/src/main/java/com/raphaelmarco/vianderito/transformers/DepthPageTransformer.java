@@ -1,12 +1,13 @@
 package com.raphaelmarco.vianderito.transformers;
 
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 public class DepthPageTransformer implements ViewPager.PageTransformer {
     private static final float MIN_SCALE = 0.75f;
 
-    public void transformPage(View view, float position) {
+    public void transformPage(@NonNull View view, float position) {
         int pageWidth = view.getWidth();
 
         if (position < -1) { // [-Infinity,-1)
