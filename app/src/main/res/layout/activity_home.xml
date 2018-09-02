@@ -25,6 +25,7 @@
             android:background="?attr/colorPrimary"
             android:elevation="0dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:visibility="@{ui.isAccount ? View.GONE : View.VISIBLE}"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <RelativeLayout
@@ -46,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@{ui.pageTitle}"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textColor="@color/white"
                     android:visibility="@{ui.isHome ? View.INVISIBLE : View.VISIBLE}"/>
 

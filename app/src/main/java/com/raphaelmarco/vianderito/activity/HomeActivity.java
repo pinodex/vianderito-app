@@ -3,6 +3,7 @@ package com.raphaelmarco.vianderito.activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
+import android.databinding.Observable;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,15 +14,17 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.databinding.ActivityHomeBinding;
+import com.raphaelmarco.vianderito.fragment.AccountFragment;
 import com.raphaelmarco.vianderito.fragment.CartFragment;
 import com.raphaelmarco.vianderito.fragment.StoreFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Fragment storeFragment, cartFragment, active;
+    private Fragment storeFragment, cartFragment, accountFragment, active;
 
     private FragmentManager fm;
 
@@ -50,10 +53,12 @@ public class HomeActivity extends AppCompatActivity {
 
         storeFragment = new StoreFragment();
         cartFragment = new CartFragment();
+        accountFragment = new AccountFragment();
 
         // Show StoreFragment for initial page
         active = storeFragment;
 
+        fm.beginTransaction().add(frameId, accountFragment, "3").hide(accountFragment).commit();
         fm.beginTransaction().add(frameId, cartFragment, "2").hide(cartFragment).commit();
         fm.beginTransaction().add(frameId, storeFragment, "1").commit();
 
@@ -64,11 +69,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        setPageTitle(R.string.store);
-    }
 
-    private void setPageTitle(int resId) {
-        ui.pageTitle.set(getResources().getString(resId));
+        ui.activePage.set(R.id.store);
     }
 
     private class NavigationItemSelectedListener implements
@@ -82,18 +84,27 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.store:
                     fm.beginTransaction().hide(active).show(storeFragment).commit();
 
-                    setPageTitle(R.string.store);
-
                     active = storeFragment;
+
+                    ui.activePage.set(R.id.store);
 
                     break;
 
                 case R.id.cart:
                     fm.beginTransaction().hide(active).show(cartFragment).commit();
 
-                    setPageTitle(R.string.cart);
-
                     active = cartFragment;
+
+                    ui.activePage.set(R.id.cart);
+
+                    break;
+
+                case R.id.account:
+                    fm.beginTransaction().hide(active).show(accountFragment).commit();
+
+                    active = accountFragment;
+
+                    ui.activePage.set(R.id.account);
 
                     break;
             }
@@ -104,11 +115,37 @@ public class HomeActivity extends AppCompatActivity {
 
     public class UiData extends BaseObservable {
 
-        public ObservableField<String> pageTitle = new ObservableField<>();
+        public ObservableField<Integer> activePage = new ObservableField<>();
 
-        @Bindable({"pageTitle"})
+        @Bindable({"activePage"})
+        public String getPageTitle() {
+            int stringId = 0;
+
+            switch (activePage.get()) {
+                case R.id.store:
+                    stringId = R.string.store;
+                    break;
+
+                case R.id.cart:
+                    stringId = R.string.cart;
+                    break;
+
+                case R.id.account:
+                    stringId = R.string.account;
+                    break;
+            }
+
+            return getResources().getString(stringId);
+        }
+
+        @Bindable({"activePage"})
         public Boolean getIsHome() {
-            return pageTitle.get().equals(getResources().getString(R.string.store));
+            return R.id.store == activePage.get();
+        }
+
+        @Bindable({"activePage"})
+        public Boolean getIsAccount() {
+            return R.id.account == activePage.get();
         }
     }
 }
