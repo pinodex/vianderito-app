@@ -2,6 +2,7 @@ package com.raphaelmarco.vianderito.network.model.auth;
 
 import com.google.gson.annotations.SerializedName;
 import com.raphaelmarco.vianderito.binding.SignUpData;
+import com.raphaelmarco.vianderito.network.model.Picture;
 
 import java.util.Date;
 
@@ -28,11 +29,21 @@ public class User {
     @SerializedName("is_verified")
     private boolean isVerified;
 
+    @SerializedName("picture")
+    private Picture picture;
+
+    @SerializedName("last_login_at")
+    private Date lastLoginAt;
+
     @SerializedName("created_at")
     private Date createdAt;
 
     @SerializedName("updated_at")
     private Date updatedAt;
+
+    public User() {
+
+    }
 
     public User(SignUpData data) {
         setName(data.name.get());
@@ -100,6 +111,14 @@ public class User {
         isVerified = verified;
     }
 
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -114,5 +133,13 @@ public class User {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Date getLastLoginAt() {
+        return lastLoginAt;
+    }
+
+    public void setLastLoginAt(Date lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
     }
 }

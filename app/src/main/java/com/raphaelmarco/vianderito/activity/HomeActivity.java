@@ -3,18 +3,17 @@ package com.raphaelmarco.vianderito.activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
-import android.databinding.Observable;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.databinding.ActivityHomeBinding;
@@ -44,23 +43,13 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new NavigationItemSelectedListener());
-
-        int frameId = R.id.home_frame;
         fm = getSupportFragmentManager();
 
-        storeFragment = new StoreFragment();
-        cartFragment = new CartFragment();
-        accountFragment = new AccountFragment();
+        initPages();
+        switchPage(R.id.store);
 
-        // Show StoreFragment for initial page
-        active = storeFragment;
-
-        fm.beginTransaction().add(frameId, accountFragment, "3").hide(accountFragment).commit();
-        fm.beginTransaction().add(frameId, cartFragment, "2").hide(cartFragment).commit();
-        fm.beginTransaction().add(frameId, storeFragment, "1").commit();
+        ((BottomNavigationView) findViewById(R.id.bottom_navigation))
+                .setOnNavigationItemSelectedListener(new NavigationItemSelectedListener());
 
         findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +57,36 @@ public class HomeActivity extends AppCompatActivity {
                 ((StoreFragment) storeFragment).toggleSearchMode();
             }
         });
+    }
 
+    private void initPages() {
+        int frameId = R.id.home_frame;
 
-        ui.activePage.set(R.id.store);
+        storeFragment = new StoreFragment();
+        cartFragment = new CartFragment();
+        accountFragment = new AccountFragment();
+
+        fm.beginTransaction().add(frameId, accountFragment, "3").hide(accountFragment).commit();
+        fm.beginTransaction().add(frameId, cartFragment, "2").hide(cartFragment).commit();
+        fm.beginTransaction().add(frameId, storeFragment, "1").hide(storeFragment).commit();
+    }
+
+    private void switchPage(int pageId) {
+        ui.activePage.set(pageId);
+
+        FragmentTransaction ft = fm.beginTransaction()
+                .setCustomAnimations(R.anim.page_fade_in, R.anim.page_fade_out);
+
+        if (active != null)
+            ft.hide(active);
+
+        switch (pageId) {
+            case R.id.store: active = storeFragment; break;
+            case R.id.cart: active = cartFragment; break;
+            case R.id.account: active = accountFragment; break;
+        }
+
+        ft.show(active).commit();
     }
 
     private class NavigationItemSelectedListener implements
@@ -80,34 +96,7 @@ public class HomeActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             ((StoreFragment) storeFragment).disableSearchMode();
 
-            switch (menuItem.getItemId()) {
-                case R.id.store:
-                    fm.beginTransaction().hide(active).show(storeFragment).commit();
-
-                    active = storeFragment;
-
-                    ui.activePage.set(R.id.store);
-
-                    break;
-
-                case R.id.cart:
-                    fm.beginTransaction().hide(active).show(cartFragment).commit();
-
-                    active = cartFragment;
-
-                    ui.activePage.set(R.id.cart);
-
-                    break;
-
-                case R.id.account:
-                    fm.beginTransaction().hide(active).show(accountFragment).commit();
-
-                    active = accountFragment;
-
-                    ui.activePage.set(R.id.account);
-
-                    break;
-            }
+            switchPage(menuItem.getItemId());
 
             return true;
         }

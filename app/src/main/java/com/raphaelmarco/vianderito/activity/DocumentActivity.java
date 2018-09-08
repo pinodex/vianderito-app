@@ -55,6 +55,8 @@ public class DocumentActivity extends AppCompatActivity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 
+            setTitle(view.getTitle());
+
             progressBar.setVisibility(View.INVISIBLE);
         }
     }

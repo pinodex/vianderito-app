@@ -1,8 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.AccountFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
-</FrameLayout>
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="ui"
+            type="com.raphaelmarco.vianderito.fragment.AccountFragment.UiData" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.AccountFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/secondary"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/user_picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp">
+
+                <com.raphaelmarco.vianderito.view.PicassoImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:imageURL="@{ui.user.picture.image}" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:text="@{ui.user.name}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="@{'@' + ui.user.username}" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="215dp"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/item_my_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    app:icon="@{@drawable/ic_account}"
+                    app:title="@{@string/my_account}"
+                    layout="@layout/view_account_menu_item" />
+
+                <include
+                    android:id="@+id/item_payment_methods"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    app:icon="@{@drawable/ic_payment}"
+                    app:title="@{@string/payment_methods}"
+                    layout="@layout/view_account_menu_item" />
+
+                <include
+                    android:id="@+id/item_order_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    app:icon="@{@drawable/ic_history}"
+                    app:title="@{@string/order_history}"
+                    layout="@layout/view_account_menu_item" />
+
+                <include
+                    android:id="@+id/item_terms_of_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    app:icon="@{@drawable/ic_file}"
+                    app:title="@{@string/terms_of_service}"
+                    layout="@layout/view_account_menu_item" />
+
+                <include
+                    android:id="@+id/item_privacy_policy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    app:icon="@{@drawable/ic_file}"
+                    app:title="@{@string/privacy_policy}"
+                    layout="@layout/view_account_menu_item" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</layout>

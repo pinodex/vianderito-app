@@ -90,20 +90,14 @@ public class SignupFragment extends Fragment {
         Util.applySpan(signUpNotice, "Terms of Service", new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), DocumentActivity.class);
-                i.putExtra("name", "tos");
-
-                startActivity(i);
+                Util.openDocument(getContext(), "terms_of_service");
             }
         });
 
         Util.applySpan(signUpNotice, "Privacy Policy", new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), DocumentActivity.class);
-                i.putExtra("name", "privacy_policy");
-
-                startActivity(i);
+                Util.openDocument(getContext(), "privacy_policy");
             }
         });
 

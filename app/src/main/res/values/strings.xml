@@ -3,7 +3,6 @@
     <string name="tagline">No more punching</string>
     <string name="get_started">Get Started</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="sign_in">Log in</string>
     <string name="sign_up">Sign up</string>
     <string name="verify">Verify</string>
@@ -33,9 +32,18 @@
         and acknowledge our Privacy Policy.
     </string>
 
+    <string name="menu_image">Menu Image</string>
     <string name="product_image">Product Image</string>
+    <string name="proceed">Proceed</string>
     <string name="peso_price">P%.2f</string>
     <string name="out_of_stock">Out of stock</string>
     <string name="search">Search</string>
     <string name="all">All</string>
+
+    <string name="my_account">My Account</string>
+    <string name="payment_methods">Payment Methods</string>
+    <string name="order_history">Order History</string>
+
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="privacy_policy">Privacy Policy</string>
 </resources>
