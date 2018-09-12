@@ -1,9 +1,8 @@
 package com.raphaelmarco.vianderito.fragment;
 
-import android.annotation.SuppressLint;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableField;
+import android.databinding.ObservableBoolean;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +11,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -220,11 +218,11 @@ public class StoreFragment extends Fragment {
 
     public class UiData extends BaseObservable {
 
-        public ObservableField<Boolean> isProductsLoading = new ObservableField<>();
+        public ObservableBoolean isProductsLoading = new ObservableBoolean();
 
-        public ObservableField<Boolean> isCategoriesLoaded = new ObservableField<>();
+        public ObservableBoolean isCategoriesLoaded = new ObservableBoolean();
 
-        public ObservableField<Boolean> isSearchMode = new ObservableField<>();
+        public ObservableBoolean isSearchMode = new ObservableBoolean();
 
         public UiData() {
             isProductsLoading.set(false);

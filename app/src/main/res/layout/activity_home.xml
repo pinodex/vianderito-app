@@ -66,6 +66,23 @@
                         android:contentDescription="@string/search"
                         android:tint="@color/white" />
                 </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/profile_edit_button"
+                    android:layout_width="36dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="@{ui.isAccount ? View.VISIBLE : View.INVISIBLE}">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_edit"
+                        android:contentDescription="@string/edit_profile"
+                        android:tint="@color/white" />
+                </FrameLayout>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 

@@ -75,8 +75,6 @@ public class WelcomeActivity extends AppCompatActivity implements AuthFragmentIn
                 toggleGetStartedScreen();
             }
         });
-
-        //startActivity(new Intent(this, HomeActivity.class));
     }
 
     @Override

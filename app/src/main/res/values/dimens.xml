@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="product_spacing">10dp</dimen>
+    <dimen name="account_menu_item_margin">5dp</dimen>
+    <dimen name="account_menu_item_margin_spaced">15dp</dimen>
+
+    <dimen name="account_menu_item_vertical_padding">15dp</dimen>
+    <dimen name="account_menu_item_horizontal_padding">25dp</dimen>
+
+    <dimen name="account_info_item_vertical_padding">5dp</dimen>
+    <dimen name="account_info_item_horizontal_padding">25dp</dimen>
+
+    <dimen name="profile_edit_horizontal_space">25dp</dimen>
 </resources>

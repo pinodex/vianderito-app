@@ -3,7 +3,7 @@ package com.raphaelmarco.vianderito.fragment;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableField;
+import android.databinding.ObservableBoolean;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -157,7 +157,7 @@ public class LoginFragment extends Fragment {
 
     public class UiData extends BaseObservable {
 
-        public ObservableField<Boolean> isFormEnabled = new ObservableField<>();
+        public ObservableBoolean isFormEnabled = new ObservableBoolean();
 
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.raphaelmarco.vianderito.binding.SignUpData;
 import com.raphaelmarco.vianderito.network.model.Picture;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 public class User {
@@ -141,5 +142,11 @@ public class User {
 
     public void setLastLoginAt(Date lastLoginAt) {
         this.lastLoginAt = lastLoginAt;
+    }
+
+    public String getFormattedLastLoginAt() {
+        return DateFormat
+                .getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT)
+                .format(lastLoginAt);
     }
 }

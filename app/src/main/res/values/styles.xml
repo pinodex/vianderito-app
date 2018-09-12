@@ -7,6 +7,10 @@
         <item name="colorAccent">@color/yellow</item>
     </style>
 
+    <style name="AppTheme.OtherAccent" parent="AppTheme">
+        <item name="colorAccent">@color/primaryLightWelcome</item>
+    </style>
+
     <style name="AppTheme.Welcome" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/window_background</item>
 
@@ -23,6 +27,10 @@
         <item name="colorAccent">@color/yellow</item>
 
         <item name="cardViewStyle">@style/CardView</item>
+    </style>
+
+    <style name="ProgressBarStyle">
+        <item name="colorAccent">@color/yellow</item>
     </style>
 
 </resources>

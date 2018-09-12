@@ -65,6 +65,10 @@ public class AccountFragment extends Fragment {
             view.findViewById(item).setOnClickListener(MENU_ONCLICK_LISTENER);
         }
 
+        updateUser();
+    }
+
+    public void updateUser() {
         authService.me().enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {

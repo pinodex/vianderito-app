@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.WelcomeActivity"
             android:screenOrientation="portrait"
@@ -24,19 +23,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.SmsVerifyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Welcome" />
-
         <activity
             android:name=".activity.HomeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:theme="@style/AppTheme.Home"/>
-
-        <activity android:name=".activity.DocumentActivity" />
+            android:theme="@style/AppTheme.Home"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".activity.DocumentActivity"
+            android:label="@string/document"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ProfileEditActivity"
+            android:label="@string/edit_profile"
+            android:theme="@style/AppTheme.OtherAccent" />
     </application>
 
 </manifest>

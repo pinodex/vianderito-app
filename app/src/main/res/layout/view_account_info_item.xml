@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="name" type="java.lang.String" />
+        <variable name="value" type="java.lang.String" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:paddingTop="@dimen/account_info_item_vertical_padding"
+        android:paddingBottom="@dimen/account_info_item_vertical_padding"
+        android:paddingStart="@dimen/account_info_item_horizontal_padding"
+        android:paddingEnd="@dimen/account_info_item_horizontal_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="@{name}"
+            android:textSize="14sp"
+            android:textColor="@color/lightgray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textSize="14sp"
+            android:text="@{value ?? @string/not_set}" />
+    </RelativeLayout>
+</layout>

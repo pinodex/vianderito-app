@@ -1,5 +1,8 @@
 package com.raphaelmarco.vianderito.activity;
 
+import android.accounts.Account;
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
@@ -22,6 +25,8 @@ import com.raphaelmarco.vianderito.fragment.CartFragment;
 import com.raphaelmarco.vianderito.fragment.StoreFragment;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private static final int PROFILE_EDIT_REQUEST = 1001;
 
     private Fragment storeFragment, cartFragment, accountFragment, active;
 
@@ -57,6 +62,15 @@ public class HomeActivity extends AppCompatActivity {
                 ((StoreFragment) storeFragment).toggleSearchMode();
             }
         });
+
+        findViewById(R.id.profile_edit_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, ProfileEditActivity.class);
+
+                startActivityForResult(intent, PROFILE_EDIT_REQUEST);
+            }
+        });
     }
 
     private void initPages() {
@@ -87,6 +101,15 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         ft.show(active).commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PROFILE_EDIT_REQUEST && resultCode == Activity.RESULT_OK) {
+            ((AccountFragment) accountFragment).updateUser();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private class NavigationItemSelectedListener implements

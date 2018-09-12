@@ -3,7 +3,7 @@ package com.raphaelmarco.vianderito.activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableField;
+import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -159,7 +159,7 @@ public class SmsVerifyActivity extends AppCompatActivity {
 
     public class UiData extends BaseObservable {
 
-        public ObservableField<Boolean> isFormEnabled = new ObservableField<>();
+        public ObservableBoolean isFormEnabled = new ObservableBoolean();
 
     }
 }

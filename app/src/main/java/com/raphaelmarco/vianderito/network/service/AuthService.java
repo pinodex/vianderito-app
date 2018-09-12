@@ -1,6 +1,7 @@
 package com.raphaelmarco.vianderito.network.service;
 
 import com.raphaelmarco.vianderito.network.model.GenericMessage;
+import com.raphaelmarco.vianderito.network.model.auth.PasswordChange;
 import com.raphaelmarco.vianderito.network.model.auth.User;
 import com.raphaelmarco.vianderito.network.model.auth.UserCredentials;
 import com.raphaelmarco.vianderito.network.model.auth.UserLogin;
@@ -20,6 +21,9 @@ public interface AuthService {
 
     @POST("auth/register")
     Call<User> register(@Body User user);
+
+    @POST("auth/password")
+    Call changePassword(@Body PasswordChange passwordChange);
 
     @GET("auth/me")
     Call<User> me();
