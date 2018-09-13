@@ -1,4 +1,6 @@
 <resources>
+    <string name="blank" />
+
     <string name="app_name">Vianderito</string>
     <string name="tagline">No more punching</string>
     <string name="get_started">Get Started</string>
@@ -15,6 +17,14 @@
     <string name="password">Password</string>
     <string name="phone_number">Phone Number</string>
     <string name="sms_code">SMS Code</string>
+
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
+
+    <string name="profile_updated">Your profile has been updated</string>
+    <string name="confirm_password_not_match">New password does not match.</string>
+    <string name="password_updated">Your new password has been set</string>
 
     <string name="create_account">Create Account</string>
     <string name="resend_sms">Resend Code</string>
@@ -46,6 +56,7 @@
     <string name="all">All</string>
 
     <string name="my_account">My Account</string>
+    <string name="change_password">Change Password</string>
     <string name="payment_methods">Payment Methods</string>
     <string name="order_history">Order History</string>
 

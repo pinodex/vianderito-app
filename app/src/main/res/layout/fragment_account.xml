@@ -122,6 +122,15 @@
                         </LinearLayout>
 
                         <include
+                            android:id="@+id/item_change_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/account_menu_item_margin"
+                            app:icon="@{@drawable/ic_lock}"
+                            app:title="@{@string/change_password}"
+                            layout="@layout/view_account_menu_item" />
+
+                        <include
                             android:id="@+id/item_payment_methods"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

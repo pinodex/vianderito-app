@@ -39,7 +39,13 @@
         <activity
             android:name=".activity.ProfileEditActivity"
             android:label="@string/edit_profile"
-            android:theme="@style/AppTheme.OtherAccent" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.WindowActivity" />
+        <activity
+            android:name=".activity.ChangePasswordActivity"
+            android:label="@string/change_password"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.WindowActivity" />
     </application>
 
 </manifest>

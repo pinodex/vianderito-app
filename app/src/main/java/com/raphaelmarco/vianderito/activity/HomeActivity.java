@@ -7,6 +7,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import com.raphaelmarco.vianderito.databinding.ActivityHomeBinding;
 import com.raphaelmarco.vianderito.fragment.AccountFragment;
 import com.raphaelmarco.vianderito.fragment.CartFragment;
 import com.raphaelmarco.vianderito.fragment.StoreFragment;
+import com.tapadoo.alerter.Alerter;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -69,6 +71,8 @@ public class HomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(HomeActivity.this, ProfileEditActivity.class);
 
                 startActivityForResult(intent, PROFILE_EDIT_REQUEST);
+
+                overridePendingTransition(R.anim.slide_from_right, R.anim.zoom_out);
             }
         });
     }
@@ -106,6 +110,11 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PROFILE_EDIT_REQUEST && resultCode == Activity.RESULT_OK) {
+            Alerter.create(this)
+                    .setBackgroundColorRes(R.color.green)
+                    .setText(R.string.profile_updated)
+                    .show();
+
             ((AccountFragment) accountFragment).updateUser();
         }
 
@@ -127,7 +136,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public class UiData extends BaseObservable {
 
-        public ObservableField<Integer> activePage = new ObservableField<>();
+        public ObservableInt activePage = new ObservableInt();
 
         @Bindable({"activePage"})
         public String getPageTitle() {
@@ -151,12 +160,12 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         @Bindable({"activePage"})
-        public Boolean getIsHome() {
+        public boolean getIsHome() {
             return R.id.store == activePage.get();
         }
 
         @Bindable({"activePage"})
-        public Boolean getIsAccount() {
+        public boolean getIsAccount() {
             return R.id.account == activePage.get();
         }
     }

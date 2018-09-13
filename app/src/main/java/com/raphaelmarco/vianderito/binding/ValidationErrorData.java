@@ -1,6 +1,8 @@
 package com.raphaelmarco.vianderito.binding;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.databinding.ObservableArrayMap;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 
@@ -14,21 +16,30 @@ public class ValidationErrorData extends BaseObservable
 
     public ObservableField<String> message = new ObservableField<>();
 
-    public ObservableField<HashMap<String, String>> errors = new ObservableField<>();
+    public ObservableArrayMap<String, String> errors = new ObservableArrayMap<>();
+
+    @Bindable({"message"})
+    public boolean isMessageAvailable() {
+        return message.get() != null && !message.get().isEmpty();
+    }
+
+    public void clear() {
+        message.set(null);
+
+        errors.clear();
+    }
 
     public void fill(ValidationError model) {
         message.set(model.getMessage());
 
         if (model.getErrors() != null) {
-            HashMap<String, String> errorMap = new HashMap<>();
+            errors.clear();
 
             for (Map.Entry<String, String[]> entry : model.getErrors().entrySet()) {
                 String errorMessages = TextUtils.join("\n", entry.getValue());
 
-                errorMap.put(entry.getKey(), errorMessages);
+                errors.put(entry.getKey(), errorMessages);
             }
-
-            errors.set(errorMap);
         }
     }
 

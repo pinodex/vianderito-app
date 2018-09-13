@@ -23,6 +23,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.2.61"
+
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -37,6 +40,7 @@ dependencies {
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+    implementation 'com.tapadoo.android:alerter:3.0.0'
 
     testImplementation 'junit:junit:4.12'
 

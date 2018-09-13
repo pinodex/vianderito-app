@@ -1,5 +1,6 @@
 package com.raphaelmarco.vianderito.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
@@ -15,11 +16,13 @@ import android.widget.Toast;
 
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.Util;
+import com.raphaelmarco.vianderito.activity.ChangePasswordActivity;
 import com.raphaelmarco.vianderito.activity.DocumentActivity;
 import com.raphaelmarco.vianderito.databinding.FragmentAccountBinding;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
 import com.raphaelmarco.vianderito.network.model.auth.User;
 import com.raphaelmarco.vianderito.network.service.AuthService;
+import com.tapadoo.alerter.Alerter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,12 +30,15 @@ import retrofit2.Response;
 
 public class AccountFragment extends Fragment {
 
+    private static final int PASSWORD_CHANGE_REQUEST = 1001;
+
     private UiData ui = new UiData();
 
     private AuthService authService;
 
     private int[] menuItems = new int[] {
             R.id.item_my_account,
+            R.id.item_change_password,
             R.id.item_payment_methods,
             R.id.item_order_history,
             R.id.item_terms_of_service,
@@ -82,6 +88,18 @@ public class AccountFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PASSWORD_CHANGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            Alerter.create(getActivity())
+                    .setBackgroundColorRes(R.color.green)
+                    .setText(R.string.password_updated)
+                    .show();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     public class UiData extends BaseObservable {
 
         public ObservableField<User> user = new ObservableField<>();
@@ -92,6 +110,16 @@ public class AccountFragment extends Fragment {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
+                case R.id.item_change_password:
+                    Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+
+                    startActivityForResult(intent, PASSWORD_CHANGE_REQUEST);
+
+                    getActivity().overridePendingTransition(
+                            R.anim.slide_from_right, R.anim.zoom_out);
+
+                    break;
+
                 case R.id.item_terms_of_service:
                     Util.openDocument(getContext(), "tos");
 

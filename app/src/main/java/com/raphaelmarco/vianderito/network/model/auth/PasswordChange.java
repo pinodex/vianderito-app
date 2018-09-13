@@ -1,6 +1,7 @@
 package com.raphaelmarco.vianderito.network.model.auth;
 
 import com.google.gson.annotations.SerializedName;
+import com.raphaelmarco.vianderito.binding.PasswordChangeData;
 
 public class PasswordChange {
 
@@ -10,9 +11,23 @@ public class PasswordChange {
     @SerializedName("new_password")
     private String newPassword;
 
-    public PasswordChange(String currentPassword, String newPassword) {
+    @SerializedName("confirm_password")
+    private String confirmPassword;
+
+    public PasswordChange() { }
+
+    public PasswordChange(String currentPassword, String newPassword, String confirmPassword) {
         this.currentPassword = currentPassword;
         this.newPassword = newPassword;
+        this.confirmPassword = confirmPassword;
+    }
+
+    public PasswordChange(PasswordChangeData data) {
+        setCurrentPassword(data.currentPassword.get());
+
+        setNewPassword(data.newPassword.get());
+
+        setConfirmPassword(data.confirmPassword.get());
     }
 
     public String getCurrentPassword() {
@@ -29,5 +44,13 @@ public class PasswordChange {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

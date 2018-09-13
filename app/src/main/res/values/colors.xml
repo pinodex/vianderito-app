@@ -22,7 +22,7 @@
     <color name="primaryDarkerGetStarted">#323440</color>
     <color name="primaryLightGetStarted">#636980</color>
 
-    <color name="green">#64dd17</color>
     <color name="yellow">#fdd835</color>
     <color name="red">#ff5252</color>
+    <color name="green">#4cb04f</color>
 </resources>

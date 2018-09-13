@@ -6,6 +6,7 @@ import com.raphaelmarco.vianderito.network.model.auth.User;
 import com.raphaelmarco.vianderito.network.model.auth.UserCredentials;
 import com.raphaelmarco.vianderito.network.model.auth.UserLogin;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -23,7 +24,7 @@ public interface AuthService {
     Call<User> register(@Body User user);
 
     @POST("auth/password")
-    Call changePassword(@Body PasswordChange passwordChange);
+    Call<ResponseBody> changePassword(@Body PasswordChange passwordChange);
 
     @GET("auth/me")
     Call<User> me();
