@@ -36,6 +36,13 @@
     <string name="cart">Cart</string>
     <string name="account">Account</string>
 
+    <string name="profile_edit_permission_request">
+        Vianderito requires access to storage
+    </string>
+
+    <string name="upload">Upload</string>
+    <string name="upload_picture">Upload Picture</string>
+
     <string name="verify_phone_message">
         To start using Vianderito, please verify your phone number by entering the
         code that was sent to %1$s.

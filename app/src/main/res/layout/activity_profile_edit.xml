@@ -57,10 +57,26 @@
                     card_view:cardCornerRadius="50dp">
 
                     <com.raphaelmarco.vianderito.view.PicassoImageView
+                        android:id="@+id/user_picture_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         app:imageURL="@{ui.user.picture.image}" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:alpha="0.5">
+                    </FrameLayout>
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/upload"
+                        android:src="@drawable/ic_cloud_upload"
+                        android:tint="@color/white" />
                 </android.support.v7.widget.CardView>
 
                 <LinearLayout
