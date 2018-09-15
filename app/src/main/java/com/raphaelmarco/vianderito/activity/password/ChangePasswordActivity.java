@@ -1,4 +1,4 @@
-package com.raphaelmarco.vianderito.activity;
+package com.raphaelmarco.vianderito.activity.password;
 
 import android.app.Activity;
 import android.databinding.BaseObservable;

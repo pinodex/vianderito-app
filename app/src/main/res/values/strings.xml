@@ -18,6 +18,9 @@
     <string name="phone_number">Phone Number</string>
     <string name="sms_code">SMS Code</string>
 
+    <string name="sms_verification">SMS</string>
+    <string name="email_verification">Email</string>
+
     <string name="current_password">Current Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
@@ -27,14 +30,35 @@
     <string name="password_updated">Your new password has been set</string>
 
     <string name="create_account">Create Account</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="reset_token">Reset Token</string>
     <string name="resend_sms">Resend Code</string>
     <string name="next">Next</string>
     <string name="next_other">Continue</string>
     <string name="save">Save</string>
+    <string name="login">Login</string>
 
     <string name="store">Store</string>
     <string name="cart">Cart</string>
     <string name="account">Account</string>
+
+    <string name="completed">Completed</string>
+
+    <string name="password_reset_completed_description">
+        Your new password to your account has been successfully set. You may now login to your account.
+    </string>
+
+    <string name="forgot_password_description">
+        You may request a password change with the phone number or email address used in your account.
+    </string>
+
+    <string name="reset_token_description">
+        Please enter the password reset token that was sent to your email.
+    </string>
+    
+    <string name="change_password_description">
+        Enter a new password for your account
+    </string>
 
     <string name="profile_edit_permission_request">
         Vianderito requires access to storage

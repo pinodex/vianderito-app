@@ -9,16 +9,21 @@
 
     <style name="AppTheme.WindowActivity" parent="AppTheme">
         <item name="colorAccent">@color/primaryLightWelcome</item>
+
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="AppTheme.Welcome" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/window_background</item>
-
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/primaryWelcome</item>
         <item name="colorPrimary">@color/primaryWelcome</item>
 
         <item name="android:windowTranslucentStatus">true</item>
         <item name="colorControlNormal">@color/tertiary</item>
         <item name="colorControlActivated">@color/tertiary</item>
+    </style>
+
+    <style name="AppTheme.Welcome" parent="AppTheme.Dark">
+        <item name="android:windowBackground">@drawable/window_background</item>
     </style>
 
     <style name="AppTheme.Home" parent="Theme.AppCompat.Light.NoActionBar">

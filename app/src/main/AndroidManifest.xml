@@ -30,7 +30,7 @@
         <activity
             android:name=".activity.SmsVerifyActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Welcome" />
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".activity.HomeActivity"
             android:screenOrientation="portrait"
@@ -46,10 +46,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WindowActivity" />
         <activity
-            android:name=".activity.ChangePasswordActivity"
+            android:name=".activity.password.ChangePasswordActivity"
             android:label="@string/change_password"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WindowActivity" />
+        <activity
+            android:name=".activity.password.PasswordResetActivity"
+            android:label="@string/forgot_password"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".activity.password.PasswordResetChangeActivity"
+            android:label="@string/forgot_password"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark" />
     </application>
 
 </manifest>

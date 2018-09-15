@@ -1,6 +1,7 @@
 package com.raphaelmarco.vianderito.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
@@ -11,12 +12,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.Vianderito;
+import com.raphaelmarco.vianderito.activity.password.PasswordResetActivity;
 import com.raphaelmarco.vianderito.binding.LoginData;
 import com.raphaelmarco.vianderito.binding.ValidationErrorData;
 import com.raphaelmarco.vianderito.databinding.FragmentLoginBinding;
@@ -72,9 +72,7 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView txtCreateAccountLink = view.findViewById(R.id.create_account_link);
-
-        txtCreateAccountLink.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.create_account_link).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mListener != null) {
@@ -83,9 +81,16 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        Button btnLogin = view.findViewById(R.id.btn_login);
+        view.findViewById(R.id.forgot_password_link).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), PasswordResetActivity.class);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 enableLoadingState();

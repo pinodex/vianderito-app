@@ -12,12 +12,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.Util;
-import com.raphaelmarco.vianderito.activity.ChangePasswordActivity;
-import com.raphaelmarco.vianderito.activity.DocumentActivity;
+import com.raphaelmarco.vianderito.activity.password.ChangePasswordActivity;
 import com.raphaelmarco.vianderito.databinding.FragmentAccountBinding;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
 import com.raphaelmarco.vianderito.network.model.auth.User;

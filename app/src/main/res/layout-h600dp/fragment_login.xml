@@ -81,5 +81,14 @@
             android:padding="10dp"
             android:textColor="#fff"
             android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/forgot_password_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/forgot_password"
+            android:padding="10dp"
+            android:textColor="#fff"
+            android:textAlignment="center" />
     </LinearLayout>
 </layout>
