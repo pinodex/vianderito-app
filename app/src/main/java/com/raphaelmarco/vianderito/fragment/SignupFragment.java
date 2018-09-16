@@ -40,19 +40,15 @@ public class SignupFragment extends Fragment {
 
     private AuthFragmentInteractionListener mListener;
 
-    private ValidationErrorData validationError;
+    private ValidationErrorData validationError = new ValidationErrorData();
 
-    private SignUpData user;
+    private SignUpData user = new SignUpData();
 
-    private UiData ui;
+    private UiData ui = new UiData();
 
     private AuthService authService;
 
     public SignupFragment() {
-        user = new SignUpData();
-        validationError = new ValidationErrorData();
-        ui = new UiData();
-
         authService = RetrofitClient.getInstance().create(AuthService.class);
     }
 

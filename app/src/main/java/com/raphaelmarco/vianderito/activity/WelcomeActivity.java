@@ -17,11 +17,15 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
+import com.pixplicity.easyprefs.library.Prefs;
+import com.raphaelmarco.vianderito.Vianderito;
 import com.raphaelmarco.vianderito.fragment.AuthFragmentInteractionListener;
 import com.raphaelmarco.vianderito.fragment.LoginFragment;
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.fragment.SignupFragment;
+import com.raphaelmarco.vianderito.network.EmptyCallback;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
+import com.raphaelmarco.vianderito.network.model.GenericMessage;
 import com.raphaelmarco.vianderito.network.model.auth.User;
 import com.raphaelmarco.vianderito.network.service.AuthService;
 import com.raphaelmarco.vianderito.transformers.ZoomOutPageTransformer;
@@ -139,13 +143,23 @@ public class WelcomeActivity extends AppCompatActivity implements AuthFragmentIn
         authService.me().enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                if (response.isSuccessful()) {
-                    onLoginCompleted(response.body());
+                if (!response.isSuccessful()) {
+                    btnGetStarted.setVisibility(View.VISIBLE);
 
                     return;
                 }
 
-                btnGetStarted.setVisibility(View.VISIBLE);
+                User user = response.body();
+
+                if (!user.isVerified()) {
+                    authService.logout().enqueue(new EmptyCallback<GenericMessage>());
+
+                    Prefs.remove(Vianderito.JWT_TOKEN_ID);
+
+                    return;
+                }
+
+                onLoginCompleted(user);
             }
 
             @Override

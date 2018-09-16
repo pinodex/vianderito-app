@@ -36,24 +36,19 @@ public class SmsVerifyActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
-    private ValidationErrorData validationError;
+    private ValidationErrorData validationError = new ValidationErrorData();
 
-    private UiData ui;
+    private UiData ui = new UiData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        {
-            ui = new UiData();
-            validationError = new ValidationErrorData();
+        ActivitySmsVerifyBinding binding = DataBindingUtil.setContentView(
+                this, R.layout.activity_sms_verify);
 
-            ActivitySmsVerifyBinding binding = DataBindingUtil.setContentView(
-                    this, R.layout.activity_sms_verify);
-
-            binding.setUi(ui);
-            binding.setValidationError(validationError);
-        }
+        binding.setUi(ui);
+        binding.setValidationError(validationError);
 
         progressBar = findViewById(R.id.progress_bar);
         final EditText codeField = findViewById(R.id.sms_code);
