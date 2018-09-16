@@ -3,6 +3,7 @@ package com.raphaelmarco.vianderito.activity;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -31,6 +32,8 @@ public class DocumentActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_document);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         String name = getIntent().getStringExtra("name");
 
         progressBar = findViewById(R.id.progress_bar);
@@ -40,6 +43,18 @@ public class DocumentActivity extends AppCompatActivity {
 
         if (links.containsKey(name)) {
             webView.loadUrl(links.get(name));
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

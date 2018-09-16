@@ -89,7 +89,7 @@ public class SignupFragment extends Fragment {
         Util.applySpan(signUpNotice, "Terms of Service", new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                Util.openDocument(getContext(), "terms_of_service");
+                Util.openDocument(getContext(), "tos");
             }
         });
 
