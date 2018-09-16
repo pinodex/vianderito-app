@@ -161,9 +161,18 @@
                             android:id="@+id/item_privacy_policy"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/account_menu_item_margin"
+                            android:layout_marginBottom="@dimen/account_menu_item_margin_spaced"
                             app:icon="@{@drawable/ic_file}"
                             app:title="@{@string/privacy_policy}"
+                            layout="@layout/view_account_menu_item" />
+
+                        <include
+                            android:id="@+id/item_logout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/account_menu_item_margin"
+                            app:icon="@{@drawable/ic_exit_to_app}"
+                            app:title="@{@string/logout}"
                             layout="@layout/view_account_menu_item" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>

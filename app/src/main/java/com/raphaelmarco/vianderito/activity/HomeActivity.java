@@ -105,6 +105,14 @@ public class HomeActivity extends AppCompatActivity {
         ft.show(active).commit();
     }
 
+    public void onLogout() {
+        Intent intent = new Intent(this, WelcomeActivity.class);
+
+        startActivity(intent);
+
+        finish();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PROFILE_EDIT_REQUEST && resultCode == Activity.RESULT_OK) {

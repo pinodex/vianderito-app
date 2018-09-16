@@ -1,6 +1,8 @@
 package com.raphaelmarco.vianderito.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
@@ -15,9 +17,13 @@ import android.view.ViewGroup;
 
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.Util;
+import com.raphaelmarco.vianderito.Vianderito;
+import com.raphaelmarco.vianderito.activity.HomeActivity;
 import com.raphaelmarco.vianderito.activity.password.ChangePasswordActivity;
 import com.raphaelmarco.vianderito.databinding.FragmentAccountBinding;
+import com.raphaelmarco.vianderito.network.EmptyCallback;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
+import com.raphaelmarco.vianderito.network.model.GenericMessage;
 import com.raphaelmarco.vianderito.network.model.auth.User;
 import com.raphaelmarco.vianderito.network.service.AuthService;
 import com.tapadoo.alerter.Alerter;
@@ -40,7 +46,8 @@ public class AccountFragment extends Fragment {
             R.id.item_payment_methods,
             R.id.item_order_history,
             R.id.item_terms_of_service,
-            R.id.item_privacy_policy
+            R.id.item_privacy_policy,
+            R.id.item_logout
     };
 
     public AccountFragment() {
@@ -86,6 +93,36 @@ public class AccountFragment extends Fragment {
         });
     }
 
+    private void logoutPrompt() {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.logout)
+                .setMessage(R.string.logout_confirm_message)
+                .setPositiveButton(R.string.logout, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        logout();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void logout() {
+        authService.logout().enqueue(new EmptyCallback<GenericMessage>());
+
+        Vianderito.removeToken();
+
+        if (getActivity() != null) {
+            ((HomeActivity) getActivity()).onLogout();
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PASSWORD_CHANGE_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -125,6 +162,11 @@ public class AccountFragment extends Fragment {
 
                 case R.id.item_privacy_policy:
                     Util.openDocument(getContext(), "privacy_policy");
+
+                    break;
+
+                case R.id.item_logout:
+                    logoutPrompt();
 
                     break;
             }

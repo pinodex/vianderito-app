@@ -36,13 +36,17 @@
     <string name="next">Next</string>
     <string name="next_other">Continue</string>
     <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
 
     <string name="store">Store</string>
     <string name="cart">Cart</string>
     <string name="account">Account</string>
 
     <string name="completed">Completed</string>
+
+    <string name="logout_confirm_message">Are you sure you want to logout of your account?</string>
 
     <string name="password_reset_completed_description">
         Your new password to your account has been successfully set. You may now login to your account.

@@ -29,7 +29,7 @@
     <style name="AppTheme.Home" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/secondary</item>
-        <item name="colorAccent">@color/yellow</item>
+        <item name="colorAccent">@color/primaryLightWelcome</item>
 
         <item name="cardViewStyle">@style/CardView</item>
     </style>
