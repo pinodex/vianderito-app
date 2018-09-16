@@ -19,8 +19,7 @@
         <activity
             android:name=".activity.WelcomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Welcome"
-            android:windowSoftInputMode="adjustResize">
+            android:theme="@style/AppTheme.Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,8 +33,7 @@
         <activity
             android:name=".activity.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Home"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:theme="@style/AppTheme.Home" />
         <activity
             android:name=".activity.DocumentActivity"
             android:label="@string/document"
