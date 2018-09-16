@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.raphaelmarco.vianderito.Vianderito;
 
 import java.io.IOException;
@@ -26,7 +25,12 @@ public class RetrofitClient {
     private static Retrofit retrofit;
 
     private static String getJwtToken() {
-        return Prefs.getString(Vianderito.JWT_TOKEN_ID, "");
+        String token = Vianderito.getToken();
+
+        if (token != null)
+            return token;
+
+        return "";
     }
 
     public static Retrofit getInstance() {

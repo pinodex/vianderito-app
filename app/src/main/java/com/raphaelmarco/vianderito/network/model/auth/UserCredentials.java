@@ -2,6 +2,7 @@ package com.raphaelmarco.vianderito.network.model.auth;
 
 import com.google.gson.annotations.SerializedName;
 import com.raphaelmarco.vianderito.binding.LoginData;
+import com.raphaelmarco.vianderito.binding.SignUpData;
 
 public class UserCredentials {
 
@@ -18,6 +19,12 @@ public class UserCredentials {
 
     public UserCredentials(LoginData data) {
         setId(data.id.get());
+
+        setPassword(data.password.get());
+    }
+
+    public UserCredentials(SignUpData data) {
+        setId(data.username.get());
 
         setPassword(data.password.get());
     }

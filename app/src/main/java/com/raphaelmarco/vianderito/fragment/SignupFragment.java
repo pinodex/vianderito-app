@@ -14,14 +14,11 @@ import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.pixplicity.easyprefs.library.Prefs;
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.Util;
 import com.raphaelmarco.vianderito.Vianderito;
-import com.raphaelmarco.vianderito.activity.DocumentActivity;
 import com.raphaelmarco.vianderito.binding.SignUpData;
 import com.raphaelmarco.vianderito.binding.ValidationErrorData;
 import com.raphaelmarco.vianderito.databinding.FragmentSignupBinding;
@@ -74,9 +71,6 @@ public class SignupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button btnSignUp = view.findViewById(R.id.btn_signup);
-        btnSignUp.setOnClickListener(new SignUpButtonAction());
-
         TextView signUpNoticeText = view.findViewById(R.id.signup_agreement_message);
 
         SpannableString signUpNotice = SpannableString.valueOf(
@@ -98,17 +92,20 @@ public class SignupFragment extends Fragment {
 
         signUpNoticeText.setText(signUpNotice);
         signUpNoticeText.setMovementMethod(LinkMovementMethod.getInstance());
+
+        view.findViewById(R.id.btn_signup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                register();
+            }
+        });
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AuthFragmentInteractionListener) {
-            mListener = (AuthFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement AuthFragmentInteractionListener");
-        }
+
+        mListener = (AuthFragmentInteractionListener) context;
     }
 
     @Override
@@ -127,66 +124,71 @@ public class SignupFragment extends Fragment {
         ui.isFormEnabled.set(true);
     }
 
+    private void register() {
+        enableLoadingState();
+
+        final User data = new User(user);
+
+        authService.register(data).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                disableLoadingState();
+
+                if (!response.isSuccessful()) {
+                    validationError.fill(new ValidationError.Parser(response).parse());
+
+                    return;
+                }
+
+                login();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                t.printStackTrace();
+
+                disableLoadingState();
+            }
+        });
+    }
+
+    private void login() {
+        enableLoadingState();
+
+        UserCredentials credentials = new UserCredentials(user);
+
+        authService.login(credentials).enqueue(new Callback<UserLogin>() {
+            @Override
+            public void onResponse(
+                    @NonNull Call<UserLogin> call, @NonNull Response<UserLogin> response) {
+
+                disableLoadingState();
+
+                if (!response.isSuccessful()) {
+                    validationError.fill(new ValidationError.Parser(response).parse());
+
+                    return;
+                }
+
+                UserLogin login = response.body();
+
+                Vianderito.setToken(login.getAccessToken());
+
+                mListener.onRequireSmsVerification(login.getUser());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UserLogin> call, @NonNull Throwable t) {
+                t.printStackTrace();
+
+                disableLoadingState();
+            }
+        });
+    }
+
     public class UiData extends BaseObservable {
 
         public ObservableBoolean isFormEnabled = new ObservableBoolean();
 
-    }
-
-    private class SignUpButtonAction implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            enableLoadingState();
-
-            final User data = new User(user);
-
-            authService.register(data).enqueue(new Callback<User>() {
-                @Override
-                public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                    disableLoadingState();
-
-                    if (response.code() == 422) {
-                        validationError.fill(new ValidationError.Parser(response).parse());
-
-                        return;
-                    }
-
-                    final User user = response.body();
-
-                    UserCredentials credentials = new UserCredentials(
-                            data.getUsername(), data.getPassword());
-
-                    enableLoadingState();
-
-                    authService.login(credentials).enqueue(new Callback<UserLogin>() {
-                        @Override
-                        public void onResponse(@NonNull Call<UserLogin> call, @NonNull Response<UserLogin> response) {
-                            disableLoadingState();
-
-                            if (response.isSuccessful()) {
-                                Prefs.putString(Vianderito.JWT_TOKEN_ID,
-                                        response.body().getAccessToken());
-
-                                mListener.onRequireSmsVerification(user);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<UserLogin> call, @NonNull Throwable t) {
-                            t.printStackTrace();
-
-                            disableLoadingState();
-                        }
-                    });
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                    t.printStackTrace();
-
-                    disableLoadingState();
-                }
-            });
-        }
     }
 }

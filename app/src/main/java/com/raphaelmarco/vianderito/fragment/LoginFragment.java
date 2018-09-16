@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pixplicity.easyprefs.library.Prefs;
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.Vianderito;
 import com.raphaelmarco.vianderito.activity.password.PasswordResetActivity;
@@ -35,19 +34,15 @@ public class LoginFragment extends Fragment {
 
     private AuthFragmentInteractionListener mListener;
 
-    private UiData ui;
+    private UiData ui = new UiData();
 
-    private LoginData user;
+    private LoginData user = new LoginData();
 
-    private ValidationErrorData validationError;
+    private ValidationErrorData validationError = new ValidationErrorData();
 
     private AuthService authService;
 
     public LoginFragment() {
-        ui = new UiData();
-        user = new LoginData();
-        validationError = new ValidationErrorData();
-
         authService = RetrofitClient.getInstance().create(AuthService.class);
     }
 
@@ -111,7 +106,7 @@ public class LoginFragment extends Fragment {
                         UserLogin userLogin = response.body();
                         User user = userLogin.getUser();
 
-                        Prefs.putString(Vianderito.JWT_TOKEN_ID, userLogin.getAccessToken());
+                        Vianderito.setToken(userLogin.getAccessToken());
 
                         if (!user.isVerified()) {
                             mListener.onRequireSmsVerification(user);
@@ -136,12 +131,8 @@ public class LoginFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AuthFragmentInteractionListener) {
-            mListener = (AuthFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement AuthFragmentInteractionListener");
-        }
+
+        mListener = (AuthFragmentInteractionListener) context;
     }
 
     @Override

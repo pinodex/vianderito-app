@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.raphaelmarco.vianderito.Vianderito;
 import com.raphaelmarco.vianderito.fragment.AuthFragmentInteractionListener;
 import com.raphaelmarco.vianderito.fragment.LoginFragment;
@@ -154,7 +153,7 @@ public class WelcomeActivity extends AppCompatActivity implements AuthFragmentIn
                 if (!user.isVerified()) {
                     authService.logout().enqueue(new EmptyCallback<GenericMessage>());
 
-                    Prefs.remove(Vianderito.JWT_TOKEN_ID);
+                    Vianderito.removeToken();
 
                     return;
                 }

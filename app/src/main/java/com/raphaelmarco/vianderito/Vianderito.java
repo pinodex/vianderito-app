@@ -21,4 +21,16 @@ public class Vianderito extends Application {
                 .setUseDefaultSharedPreference(true)
                 .build();
     }
+
+    public static void setToken(String token) {
+        Prefs.putString(JWT_TOKEN_ID, token);
+    }
+
+    public static String getToken() {
+        return Prefs.getString(JWT_TOKEN_ID, null);
+    }
+
+    public static void removeToken() {
+        Prefs.remove(JWT_TOKEN_ID);
+    }
 }
