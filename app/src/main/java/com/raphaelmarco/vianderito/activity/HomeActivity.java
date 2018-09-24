@@ -96,22 +96,24 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void switchPage(int pageId) {
-        ui.activePage.set(pageId);
+        if (ui.activePage.get() == pageId) return;
 
-        FragmentTransaction ft = fm.beginTransaction()
-                .setCustomAnimations(R.anim.page_fade_in, R.anim.page_fade_out);
+                ui.activePage.set(pageId);
 
-        if (active != null) {
-            if (active instanceof CartFragment) {
-                ((CartFragment) active).stopCamera();
-            }
+                FragmentTransaction ft = fm.beginTransaction()
+                        .setCustomAnimations(R.anim.page_fade_in, R.anim.page_fade_out);
 
-            ft.hide(active);
-        }
+                if (active != null) {
+                    if (active instanceof CartFragment) {
+                        ((CartFragment) active).stopCamera();
+                    }
 
-        switch (pageId) {
-            case R.id.store: active = storeFragment; break;
-            case R.id.cart: active = cartFragment; break;
+                    ft.hide(active);
+                }
+
+                switch (pageId) {
+                    case R.id.store: active = storeFragment; break;
+                    case R.id.cart: active = cartFragment; break;
             case R.id.account: active = accountFragment; break;
         }
 
