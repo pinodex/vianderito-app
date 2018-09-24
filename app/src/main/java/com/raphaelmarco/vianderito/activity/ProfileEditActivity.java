@@ -29,10 +29,8 @@ import com.raphaelmarco.vianderito.network.service.AuthService;
 import com.raphaelmarco.vianderito.network.service.ProfileService;
 import com.raphaelmarco.vianderito.view.PicassoImageView;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -284,7 +282,7 @@ public class ProfileEditActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.profile_edit_menu, menu);
+        getMenuInflater().inflate(R.menu.edit_menu, menu);
         return true;
     }
 

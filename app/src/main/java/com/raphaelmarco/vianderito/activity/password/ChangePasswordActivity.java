@@ -2,10 +2,8 @@ package com.raphaelmarco.vianderito.activity.password;
 
 import android.app.Activity;
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,8 +18,6 @@ import com.raphaelmarco.vianderito.network.RetrofitClient;
 import com.raphaelmarco.vianderito.network.model.ValidationError;
 import com.raphaelmarco.vianderito.network.model.auth.PasswordChange;
 import com.raphaelmarco.vianderito.network.service.AuthService;
-
-import java.net.HttpURLConnection;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

@@ -18,6 +18,14 @@
     <string name="phone_number">Phone Number</string>
     <string name="sms_code">SMS Code</string>
 
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="country">Country</string>
+    <string name="postal_code">Postal Code</string>
+
     <string name="sms_verification">SMS</string>
     <string name="email_verification">Email</string>
 
@@ -39,12 +47,18 @@
     <string name="cancel">Cancel</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="close">Close</string>
+    <string name="add">Add</string>
 
     <string name="store">Store</string>
     <string name="cart">Cart</string>
     <string name="account">Account</string>
 
     <string name="completed">Completed</string>
+
+    <string name="add_payment_method">Add Payment Method</string>
+
+    <string name="card_holder_information">Card Holder Information</string>
 
     <string name="logout_confirm_message">Are you sure you want to logout of your account?</string>
 
@@ -59,7 +73,7 @@
     <string name="reset_token_description">
         Please enter the password reset token that was sent to your email.
     </string>
-    
+
     <string name="change_password_description">
         Enter a new password for your account
     </string>
@@ -67,6 +81,10 @@
     <string name="profile_edit_permission_request">
         Vianderito requires access to storage
     </string>
+
+    <string name="credit_card_number_error">Invalid card number</string>
+    <string name="credit_card_expiration_error">Invalid card expiration date</string>
+    <string name="credit_card_added">The card has been successfully added to your account</string>
 
     <string name="upload">Upload</string>
     <string name="upload_picture">Upload Picture</string>
@@ -80,6 +98,8 @@
         By signing up, you agree to Terms of Service
         and acknowledge our Privacy Policy.
     </string>
+
+    <string name="client_token_obtain_fail">Failed to obtain client token from the server.</string>
 
     <string name="menu_image">Menu Image</string>
     <string name="product_image">Product Image</string>

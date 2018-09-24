@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="ui"
+            type="com.raphaelmarco.vianderito.activity.billing.AddPaymentMethodActivity.UiData" />
+
+        <variable
+            name="model"
+            type="com.raphaelmarco.vianderito.binding.billing.CustomerData" />
+
+        <variable
+            name="validationError"
+            type="com.raphaelmarco.vianderito.binding.ValidationErrorData" />
+    </data>
+
+    <RelativeLayout
+        tools:context=".activity.billing.AddPaymentMethodActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/progress_bar"
+            android:theme="@style/ProgressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-6dp"
+            android:elevation="1dp"
+            android:indeterminate="true"
+            android:fitsSystemWindows="true"
+            android:visibility="@{ui.isLoading ? View.VISIBLE : View.INVISIBLE}" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/profile_edit_horizontal_space"
+                android:layout_marginStart="@dimen/profile_edit_horizontal_space"
+                android:layout_marginTop="@dimen/profile_edit_horizontal_space"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:paddingBottom="50dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/red"
+                    android:padding="15dp"
+                    android:visibility="@{validationError.isMessageAvailable ? View.VISIBLE : View.GONE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{validationError.message}"
+                        android:textColor="@color/white" />
+                </FrameLayout>
+
+                <com.braintreepayments.cardform.view.CardForm
+                    android:id="@+id/card_form"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/card_holder_information"
+                    android:textSize="18sp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{!ui.isLoading}"
+                        android:hint="@string/first_name"
+                        android:inputType="textPersonName"
+                        android:text="@={model.firstName}"
+                        app:error='@{validationError.errors["first_name"]}' />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{!ui.isLoading}"
+                        android:hint="@string/first_name"
+                        android:inputType="textPersonName"
+                        android:text="@={model.lastName}"
+                        app:error='@{validationError.errors["last_name"]}' />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{!ui.isLoading}"
+                        android:hint="@string/address"
+                        android:inputType="textPostalAddress"
+                        android:text="@={model.address}"
+                        app:error='@{validationError.errors["address"]}' />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{!ui.isLoading}"
+                        android:hint="@string/city"
+                        android:inputType="textCapWords"
+                        android:text="@={model.city}"
+                        app:error='@{validationError.errors["city"]}' />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{!ui.isLoading}"
+                        android:hint="@string/state"
+                        android:inputType="textCapWords"
+                        android:text="@={model.state}"
+                        app:error='@{validationError.errors["state"]}' />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:hint="@string/country"
+                        android:inputType="textCapWords"
+                        android:text="@={model.country}"
+                        app:error='@{validationError.errors["country"]}' />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{!ui.isLoading}"
+                        android:hint="@string/postal_code"
+                        android:inputType="number"
+                        android:text="@={model.postalCode}"
+                        app:error='@{validationError.errors["postal_code"]}' />
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btn_add_payment_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:alpha="@{ui.isLoading ? 0.5f : 1.0f}"
+                    android:background="@drawable/button_rounded_green"
+                    android:enabled="@{!ui.isLoading}"
+                    android:text="@string/add_payment_method"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</layout>

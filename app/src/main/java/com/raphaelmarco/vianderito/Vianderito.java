@@ -10,6 +10,8 @@ public class Vianderito extends Application {
 
     public static final String JWT_TOKEN_ID = "_api_jwt_token";
 
+    public static final String GATEWAY_TOKEN_ID = "_gateway_token";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,5 +34,17 @@ public class Vianderito extends Application {
 
     public static void removeToken() {
         Prefs.remove(JWT_TOKEN_ID);
+    }
+
+    public static void setGatewayToken(String token) {
+        Prefs.putString(GATEWAY_TOKEN_ID, token);
+    }
+
+    public static String getGatewayToken() {
+        return Prefs.getString(GATEWAY_TOKEN_ID, null);
+    }
+
+    public static void removeGatewayToken() {
+        Prefs.remove(GATEWAY_TOKEN_ID);
     }
 }

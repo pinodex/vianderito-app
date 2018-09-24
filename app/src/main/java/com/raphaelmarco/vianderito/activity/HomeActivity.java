@@ -22,6 +22,8 @@ import com.raphaelmarco.vianderito.databinding.ActivityHomeBinding;
 import com.raphaelmarco.vianderito.fragment.AccountFragment;
 import com.raphaelmarco.vianderito.fragment.CartFragment;
 import com.raphaelmarco.vianderito.fragment.StoreFragment;
+import com.raphaelmarco.vianderito.network.RetrofitClient;
+import com.raphaelmarco.vianderito.network.service.gateway.ClientService;
 import com.tapadoo.alerter.Alerter;
 
 public class HomeActivity extends AppCompatActivity {

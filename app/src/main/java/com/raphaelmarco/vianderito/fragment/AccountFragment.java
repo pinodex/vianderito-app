@@ -19,6 +19,7 @@ import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.Util;
 import com.raphaelmarco.vianderito.Vianderito;
 import com.raphaelmarco.vianderito.activity.HomeActivity;
+import com.raphaelmarco.vianderito.activity.billing.PaymentMethodsActivity;
 import com.raphaelmarco.vianderito.activity.password.ChangePasswordActivity;
 import com.raphaelmarco.vianderito.databinding.FragmentAccountBinding;
 import com.raphaelmarco.vianderito.network.EmptyCallback;
@@ -144,9 +145,21 @@ public class AccountFragment extends Fragment {
     private final View.OnClickListener MENU_ONCLICK_LISTENER = new View.OnClickListener () {
         @Override
         public void onClick(View view) {
+            Intent intent;
+
             switch (view.getId()) {
                 case R.id.item_change_password:
-                    Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+                    intent = new Intent(getActivity(), ChangePasswordActivity.class);
+
+                    startActivityForResult(intent, PASSWORD_CHANGE_REQUEST);
+
+                    getActivity().overridePendingTransition(
+                            R.anim.slide_from_right, R.anim.zoom_out);
+
+                    break;
+
+                case R.id.item_payment_methods:
+                    intent = new Intent(getActivity(), PaymentMethodsActivity.class);
 
                     startActivityForResult(intent, PASSWORD_CHANGE_REQUEST);
 
