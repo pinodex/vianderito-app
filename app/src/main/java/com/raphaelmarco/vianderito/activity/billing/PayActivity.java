@@ -109,6 +109,15 @@ public class PayActivity extends AppCompatActivity {
         loadPaymentMethods();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (isFinishing()) {
+            overridePendingTransition(R.anim.zoom_in, R.anim.slide_to_right);
+        }
+    }
+
     private void loadPaymentMethods() {
         ui.isPaymentMethodLoading.set(true);
         ui.isPaymentMethodNone.set(false);
@@ -283,6 +292,8 @@ public class PayActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PaymentMethodsActivity.class);
 
         startActivityForResult(intent, ADD_PAYMENT_METHOD);
+
+        overridePendingTransition(R.anim.slide_from_right, R.anim.zoom_out);
     }
 
     private void returnError() {

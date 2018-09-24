@@ -194,6 +194,8 @@ public class CartFragment extends Fragment {
         intent.putExtra("transaction_id", transactionId);
 
         startActivityForResult(intent, PAY_REQUEST);
+
+        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.zoom_out);
     }
 
     private void loadTransaction() {
