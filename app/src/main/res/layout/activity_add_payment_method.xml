@@ -90,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="@{!ui.isLoading}"
                         android:hint="@string/first_name"
-                        android:inputType="textPersonName"
+                        android:inputType="textCapWords"
                         android:text="@={model.firstName}"
                         app:error='@{validationError.errors["first_name"]}' />
                 </android.support.design.widget.TextInputLayout>
@@ -103,8 +103,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="@{!ui.isLoading}"
-                        android:hint="@string/first_name"
-                        android:inputType="textPersonName"
+                        android:hint="@string/last_name"
+                        android:inputType="textCapWords"
                         android:text="@={model.lastName}"
                         app:error='@{validationError.errors["last_name"]}' />
                 </android.support.design.widget.TextInputLayout>
