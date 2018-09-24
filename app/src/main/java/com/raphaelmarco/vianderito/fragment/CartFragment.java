@@ -33,6 +33,7 @@ import com.tapadoo.alerter.Alert;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -95,6 +96,13 @@ public class CartFragment extends Fragment {
 
         codeScanner.setDecodeCallback(new Decoder());
 
+        view.findViewById(R.id.pay_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startPaymentProcess();
+            }
+        });
+
         disableBackButton();
         //loadTransaction();
     }
@@ -151,13 +159,35 @@ public class CartFragment extends Fragment {
     }
 
     private void discardCart() {
+        disableBackButton();
+
+        ui.state.set(STATE_LOADING);
+
+        cartService.delete(code).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(
+                    @NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+
+                resetCart();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                resetCart();
+            }
+        });
+    }
+
+    private void resetCart() {
         code = null;
 
         ui.state.set(STATE_STANDBY);
 
         startCamera();
+    }
 
-        disableBackButton();
+    private void startPaymentProcess() {
+
     }
 
     private void loadTransaction() {
