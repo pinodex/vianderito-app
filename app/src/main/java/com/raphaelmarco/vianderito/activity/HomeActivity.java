@@ -128,6 +128,10 @@ public class HomeActivity extends AppCompatActivity {
         ui.isBackEnabled.set(enable);
     }
 
+    public void gotoHome() {
+        switchPage(R.id.store);
+    }
+
     public void onLogout() {
         Intent intent = new Intent(this, WelcomeActivity.class);
 

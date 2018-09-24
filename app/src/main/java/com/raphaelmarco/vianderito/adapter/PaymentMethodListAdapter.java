@@ -26,8 +26,16 @@ public class PaymentMethodListAdapter extends
 
     private OnMenuClickListener onMenuClickListener;
 
+    private boolean useChevronIcon = false;
+
     public PaymentMethodListAdapter(Context context) {
         this.context = context;
+    }
+
+    public PaymentMethodListAdapter(Context context, boolean useChevronIcon) {
+        this.context = context;
+
+        this.useChevronIcon = useChevronIcon;
     }
 
     public ArrayList<Customer> getData() {
@@ -57,7 +65,7 @@ public class PaymentMethodListAdapter extends
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Customer model = data.get(position);
 
-        holder.bind(context, model, onMenuClickListener);
+        holder.bind(context, model, useChevronIcon, onMenuClickListener);
     }
 
     @Override
@@ -68,16 +76,16 @@ public class PaymentMethodListAdapter extends
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final ViewPaymentMethodBinding binding;
 
-        public ViewHolder(ViewPaymentMethodBinding binding) {
+        ViewHolder(ViewPaymentMethodBinding binding) {
             super(binding.getRoot());
 
             this.binding = binding;
         }
 
-        void bind(Context context, final Customer model,
+        void bind(Context context, final Customer model, boolean useChevronIcon,
                   final OnMenuClickListener onMenuClickListener) {
 
-            UiData ui = new UiData(context, model);
+            UiData ui = new UiData(context, model, useChevronIcon);
             ImageView menuButton = binding.getRoot().findViewById(R.id.payment_method_menu);
 
             binding.setModel(model);
@@ -105,9 +113,12 @@ public class PaymentMethodListAdapter extends
 
         private Customer model;
 
-        public UiData(Context context, Customer model) {
+        private boolean useChevronIcon;
+
+        public UiData(Context context, Customer model, boolean useChevronIcon) {
             this.context = context;
             this.model = model;
+            this.useChevronIcon = useChevronIcon;
         }
 
         public Drawable getCardIcon() {
@@ -119,6 +130,10 @@ public class PaymentMethodListAdapter extends
             }
 
             return context.getResources().getDrawable(resId);
+        }
+
+        public boolean getIsChevronIcon() {
+            return useChevronIcon;
         }
 
     }

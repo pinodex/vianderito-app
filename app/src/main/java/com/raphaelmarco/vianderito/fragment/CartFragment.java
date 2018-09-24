@@ -1,7 +1,9 @@
 package com.raphaelmarco.vianderito.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
@@ -23,15 +25,12 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.activity.HomeActivity;
+import com.raphaelmarco.vianderito.activity.billing.PayActivity;
 import com.raphaelmarco.vianderito.adapter.CartAdapter;
 import com.raphaelmarco.vianderito.databinding.FragmentCartBinding;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
 import com.raphaelmarco.vianderito.network.model.cart.Transaction;
-import com.raphaelmarco.vianderito.network.model.store.Inventory;
 import com.raphaelmarco.vianderito.network.service.CartService;
-import com.tapadoo.alerter.Alert;
-
-import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -46,6 +45,8 @@ public class CartFragment extends Fragment {
 
     public static final int STATE_CART = 5;
 
+    public static final int PAY_REQUEST = 2000;
+
     private UiData ui = new UiData();
 
     private CartService cartService;
@@ -54,7 +55,7 @@ public class CartFragment extends Fragment {
 
     private CodeScanner codeScanner;
 
-    private String code = "93657630-bff0-11e8-81ae-f31f909b6045";
+    private String transactionId = null;
 
     FragmentCartBinding binding;
 
@@ -104,7 +105,6 @@ public class CartFragment extends Fragment {
         });
 
         disableBackButton();
-        //loadTransaction();
     }
 
     public void startCamera() {
@@ -163,7 +163,7 @@ public class CartFragment extends Fragment {
 
         ui.state.set(STATE_LOADING);
 
-        cartService.delete(code).enqueue(new Callback<ResponseBody>() {
+        cartService.delete(transactionId).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(
                     @NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -176,10 +176,12 @@ public class CartFragment extends Fragment {
                 resetCart();
             }
         });
+
+        resetCart();
     }
 
     private void resetCart() {
-        code = null;
+        transactionId = null;
 
         ui.state.set(STATE_STANDBY);
 
@@ -187,11 +189,15 @@ public class CartFragment extends Fragment {
     }
 
     private void startPaymentProcess() {
+        Intent intent = new Intent(getActivity(), PayActivity.class);
 
+        intent.putExtra("transaction_id", transactionId);
+
+        startActivityForResult(intent, PAY_REQUEST);
     }
 
     private void loadTransaction() {
-        cartService.get(code).enqueue(new Callback<Transaction>() {
+        cartService.get(transactionId).enqueue(new Callback<Transaction>() {
             @Override
             public void onResponse(
                     @NonNull Call<Transaction> call, @NonNull Response<Transaction> response) {
@@ -216,9 +222,24 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<Transaction> call, @NonNull Throwable t) {
+                t.printStackTrace();
 
+                showTransactionNotFoundError();
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PAY_REQUEST && resultCode == Activity.RESULT_OK) {
+            disableBackButton();
+
+            resetCart();
+
+            ((HomeActivity) getActivity()).gotoHome();
+        }
     }
 
     public class Decoder implements DecodeCallback {
@@ -229,7 +250,7 @@ public class CartFragment extends Fragment {
                 public void run() {
                     codeScanner.stopPreview();;
 
-                    code = result.getText();
+                    transactionId = result.getText();
 
                     ui.state.set(STATE_LOADING);
 

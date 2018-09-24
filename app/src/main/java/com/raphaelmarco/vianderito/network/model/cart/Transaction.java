@@ -11,9 +11,6 @@ public class Transaction {
     @SerializedName("id")
     public String id;
 
-    @SerializedName("user_id")
-    public String userId;
-
     @SerializedName("status")
     public String status;
 

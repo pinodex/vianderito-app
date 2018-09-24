@@ -22,9 +22,6 @@ public class Inventory {
     @SerializedName("price")
     private double price;
 
-    @SerializedName("subtotal")
-    private double subTotal;
-
     @SerializedName("batch_date")
     private Date batchDate;
 
@@ -83,14 +80,6 @@ public class Inventory {
         this.price = price;
     }
 
-    public double getSubTotal() {
-        return subTotal;
-    }
-
-    public void setSubTotal(double subTotal) {
-        this.subTotal = subTotal;
-    }
-
     public Date getBatchDate() {
         return batchDate;
     }
@@ -137,6 +126,10 @@ public class Inventory {
 
     public void setPivot(Pivot pivot) {
         this.pivot = pivot;
+    }
+
+    public double getSubTotal() {
+        return this.pivot.quantity * this.price;
     }
 
     public static class Pivot {

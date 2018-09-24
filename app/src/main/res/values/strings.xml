@@ -66,10 +66,35 @@
 
     <string name="transaction_not_found">Cannot find transaction from the scanned code</string>
 
+    <string name="no_payment_method">
+        No payment method saved on account. Please add one first to complete your transaction.
+    </string>
+
     <string name="completed">Completed</string>
+
+    <string name="amount_to_pay">Amount To Pay</string>
+    <string name="pay_using">Pay Using</string>
 
     <string name="add_payment_method">Add Payment Method</string>
     <string name="view_payment_method">View Payment Method</string>
+    
+    <string name="no_payment_method_available">
+        There is no payment method available. Do you want to add one first?
+    </string>
+
+    <string name="confirm_payment">Confirm Payment</string>
+
+    <string name="confirm_payment_from_method">
+        Confirm payment of P%.2f using card %s?
+    </string>
+
+    <string name="payment_error">Payment Error</string>
+
+    <string name="transaction_complete">Transaction Complete</string>
+
+    <string name="transaction_complete_message">
+        Thank you for purchasing with Vianderito!
+    </string>
 
     <string name="customer_information">Customer Information</string>
 

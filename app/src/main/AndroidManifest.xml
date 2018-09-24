@@ -11,14 +11,14 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
-        tools:replace="android:allowBackup"
         android:name=".Vianderito"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
         <activity
             android:name=".activity.WelcomeActivity"
             android:screenOrientation="portrait"
@@ -74,6 +74,11 @@
         <activity
             android:name=".activity.billing.ViewPaymentMethod"
             android:label="@string/view_payment_method"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.WindowActivity" />
+        <activity
+            android:name=".activity.billing.PayActivity"
+            android:label="@string/pay"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WindowActivity" />
     </application>

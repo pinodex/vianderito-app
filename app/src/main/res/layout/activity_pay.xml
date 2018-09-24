@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="ui"
+            type="com.raphaelmarco.vianderito.activity.billing.PayActivity.UiData" />
+
+        <variable
+            name="transaction"
+            type="com.raphaelmarco.vianderito.network.model.cart.Transaction" />
+    </data>
+
+    <RelativeLayout
+        tools:context=".activity.billing.PayActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/progress_bar"
+            android:theme="@style/ProgressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-6dp"
+            android:elevation="1dp"
+            android:indeterminate="true"
+            android:fitsSystemWindows="true"
+            android:visibility="@{ui.isLoading ? View.VISIBLE : View.INVISIBLE}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="@{ui.isCompleted ? View.VISIBLE : View.GONE}">
+
+            <ImageView
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+                android:src="@drawable/ic_check"
+                android:contentDescription="@string/pay"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/transaction_complete"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/transaction_complete_message" />
+
+            <Button
+                android:id="@+id/btn_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/close"
+                android:textColor="@color/white"
+                android:background="@drawable/button_rounded_blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{ui.isCompleted ? View.GONE : View.VISIBLE}">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingTop="30dp"
+                    android:paddingBottom="30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/amount_to_pay"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/peso_price(transaction.total)}"
+                        android:textSize="36sp"
+                        android:textColor="@color/green"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:src="@drawable/ic_cards"
+                    android:tint="@color/lightgray"
+                    android:contentDescription="@string/pay"
+                    android:layout_marginEnd="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/pay_using"
+                android:textSize="16sp"/>
+
+            <include
+                android:id="@+id/item_add_payment_method"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{ui.isPaymentMethodNone ? View.VISIBLE : View.GONE}"
+                app:icon="@{@drawable/ic_add}"
+                app:title="@{@string/add_payment_method}"
+                layout="@layout/view_account_menu_item" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/no_payment_method"
+                android:visibility="@{ui.isPaymentMethodNone ? View.VISIBLE : View.GONE}"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/payment_methods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

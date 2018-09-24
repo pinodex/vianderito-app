@@ -13,9 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -53,6 +51,8 @@ public class PaymentMethodsActivity extends AppCompatActivity {
     private CustomerService customerService;
 
     private String clientToken;
+
+    private boolean invokedFromPaymentUi = false;
 
     public PaymentMethodsActivity() {
         clientService = RetrofitClient.getInstance().create(ClientService.class);
@@ -96,6 +96,12 @@ public class PaymentMethodsActivity extends AppCompatActivity {
 
         getPaymentMethods();
         obtainClientToken();
+
+        if (getCallingActivity() != null) {
+            if (PayActivity.class.getName().equals(getCallingActivity().getClassName())) {
+                invokedFromPaymentUi = true;
+            }
+        }
     }
 
     private void getPaymentMethods() {
@@ -137,20 +143,24 @@ public class PaymentMethodsActivity extends AppCompatActivity {
             public void onFailure(@NonNull Call<Token> call, @NonNull Throwable t) {
                 ui.isTokenLoading.set(false);
 
-                new AlertDialog.Builder(getApplicationContext())
-                        .setTitle(R.string.payment_methods)
-                        .setMessage(R.string.client_token_obtain_fail)
-                        .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                                finish();
-                            }
-                        })
-                        .create()
-                        .show();
+                showClientTokenError();
             }
         });
+    }
+
+    private void showClientTokenError() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.payment_methods)
+                .setMessage(R.string.client_token_obtain_fail)
+                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                        finish();
+                    }
+                })
+                .create()
+                .show();
     }
 
     private void addPaymentMethod() {
@@ -166,6 +176,14 @@ public class PaymentMethodsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (invokedFromPaymentUi) {
+            setResult(Activity.RESULT_OK);
+
+            finish();
+
+            return;
+        }
 
         if (requestCode == ADD_PAYMENT_METHOD && resultCode == Activity.RESULT_OK) {
             Alerter.create(this)
