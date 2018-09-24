@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.raphaelmarco.vianderito">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,6 +10,7 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
+        tools:replace="android:allowBackup"
         android:name=".Vianderito"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -66,6 +68,11 @@
         <activity
             android:name=".activity.billing.AddPaymentMethodActivity"
             android:label="@string/add_payment_method"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.WindowActivity" />
+        <activity
+            android:name=".activity.billing.ViewPaymentMethod"
+            android:label="@string/view_payment_method"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WindowActivity" />
     </application>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.graphics.Rect;
@@ -12,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +39,8 @@ import retrofit2.Response;
 public class PaymentMethodsActivity extends AppCompatActivity {
 
     private static final int ADD_PAYMENT_METHOD = 5000;
+
+    private static final int VIEW_PAYMENT_METHOD = 5001;
 
     private UiData ui = new UiData();
 
@@ -71,7 +75,7 @@ public class PaymentMethodsActivity extends AppCompatActivity {
         findViewById(R.id.item_add_payment_method).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!ui.isLoading.get()) addPaymentMethod();
+                if (!ui.isTokenLoading.get()) addPaymentMethod();
             }
         });
 
@@ -95,11 +99,15 @@ public class PaymentMethodsActivity extends AppCompatActivity {
     }
 
     private void getPaymentMethods() {
+        ui.isListLoading.set(true);
+
         customerService.get().enqueue(new Callback<ArrayList<Customer>>() {
             @Override
             public void onResponse(
                     @NonNull Call<ArrayList<Customer>> call,
                     @NonNull Response<ArrayList<Customer>> response) {
+
+                ui.isListLoading.set(false);
 
                 adapter.setData(response.body());
                 adapter.notifyDataSetChanged();
@@ -108,24 +116,26 @@ public class PaymentMethodsActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<ArrayList<Customer>> call, @NonNull Throwable t) {
                 t.printStackTrace();
+
+                ui.isListLoading.set(false);
             }
         });
     }
 
     private void obtainClientToken() {
-        ui.isLoading.set(true);
+        ui.isTokenLoading.set(true);
 
         clientService.obtainToken().enqueue(new Callback<Token>() {
             @Override
             public void onResponse(@NonNull Call<Token> call, @NonNull Response<Token> response) {
                 clientToken = response.body().getToken();
 
-                ui.isLoading.set(false);
+                ui.isTokenLoading.set(false);
             }
 
             @Override
             public void onFailure(@NonNull Call<Token> call, @NonNull Throwable t) {
-                ui.isLoading.set(false);
+                ui.isTokenLoading.set(false);
 
                 new AlertDialog.Builder(getApplicationContext())
                         .setTitle(R.string.payment_methods)
@@ -165,6 +175,10 @@ public class PaymentMethodsActivity extends AppCompatActivity {
 
             getPaymentMethods();
         }
+
+        if (requestCode == VIEW_PAYMENT_METHOD && resultCode == Activity.RESULT_OK) {
+            getPaymentMethods();
+        }
     }
 
     @Override
@@ -192,14 +206,30 @@ public class PaymentMethodsActivity extends AppCompatActivity {
             implements PaymentMethodListAdapter.OnMenuClickListener {
 
         @Override
-        public void onClick(Customer customer) {
-            customer.getId();
+        public void onClick(View view, Customer customer) {
+            Intent intent = new Intent(getApplicationContext(), ViewPaymentMethod.class);
+
+            intent.putExtra("id", customer.getId());
+            intent.putExtra("last_four", customer.getLastFour());
+            intent.putExtra("expiration_month", customer.getExpirationMonth());
+            intent.putExtra("expiration_year", customer.getExpirationYear());
+
+            startActivityForResult(intent, VIEW_PAYMENT_METHOD);
+
+            overridePendingTransition(R.anim.slide_from_right, R.anim.zoom_out);
         }
     }
 
     public class UiData extends BaseObservable {
 
-        public ObservableBoolean isLoading = new ObservableBoolean(false);
+        public ObservableBoolean isTokenLoading = new ObservableBoolean(false);
+
+        public ObservableBoolean isListLoading = new ObservableBoolean(false);
+
+        @Bindable({"isTokenLoading", "isListLoading"})
+        public boolean getIsLoading() {
+            return isTokenLoading.get() || isListLoading.get();
+        }
 
     }
 

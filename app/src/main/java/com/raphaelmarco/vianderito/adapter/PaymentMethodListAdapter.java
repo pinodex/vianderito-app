@@ -89,14 +89,14 @@ public class PaymentMethodListAdapter extends
                 @Override
                 public void onClick(View view) {
                     if (onMenuClickListener != null)
-                        onMenuClickListener.onClick(model);
+                        onMenuClickListener.onClick(view, model);
                 }
             });
         }
     }
 
     public interface OnMenuClickListener {
-        void onClick(Customer customer);
+        void onClick(View view, Customer customer);
     }
 
     public static class UiData extends BaseObservable {

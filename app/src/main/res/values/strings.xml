@@ -54,13 +54,25 @@
     <string name="cart">Cart</string>
     <string name="account">Account</string>
 
+    <string name="delete">Delete</string>
+
     <string name="completed">Completed</string>
 
     <string name="add_payment_method">Add Payment Method</string>
+    <string name="view_payment_method">View Payment Method</string>
+
+    <string name="customer_information">Customer Information</string>
+
+    <string name="edit_payment_method">Edit Payment Method</string>
+    <string name="delete_payment_method">Delete Payment Method</string>
 
     <string name="card_holder_information">Card Holder Information</string>
 
     <string name="logout_confirm_message">Are you sure you want to logout of your account?</string>
+
+    <string name="delete_payment_method_confirm_message">
+        Are you sure you want to remove this payment method from your account?
+    </string>
 
     <string name="password_reset_completed_description">
         Your new password to your account has been successfully set. You may now login to your account.
