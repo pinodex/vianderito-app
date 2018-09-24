@@ -54,7 +54,17 @@
     <string name="cart">Cart</string>
     <string name="account">Account</string>
 
+    <string name="total">Total</string>
+    <string name="pay">Pay</string>
+
+    <string name="retry">Retry</string>
+    <string name="error">Error</string>
     <string name="delete">Delete</string>
+    <string name="discard">Discard</string>
+    <string name="discard_cart">Discard Cart</string>
+    <string name="discard_cart_confirmation">Are you sure you want to discard this cart?</string>
+
+    <string name="transaction_not_found">Cannot find transaction from the scanned code</string>
 
     <string name="completed">Completed</string>
 
@@ -69,6 +79,10 @@
     <string name="card_holder_information">Card Holder Information</string>
 
     <string name="logout_confirm_message">Are you sure you want to logout of your account?</string>
+
+    <string name="cart_welcome_message">
+        Tap the screen to scan QR code
+    </string>
 
     <string name="delete_payment_method_confirm_message">
         Are you sure you want to remove this payment method from your account?
@@ -117,6 +131,7 @@
     <string name="product_image">Product Image</string>
     <string name="proceed">Proceed</string>
     <string name="peso_price">P%.2f</string>
+    <string name="peso_price_with_quantity">%d x P%.2f</string>
     <string name="out_of_stock">Out of stock</string>
     <string name="search">Search</string>
     <string name="edit_profile">Edit Profile</string>

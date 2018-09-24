@@ -51,6 +51,23 @@
                     android:visibility="@{ui.isHome ? View.INVISIBLE : View.VISIBLE}"/>
 
                 <FrameLayout
+                    android:id="@+id/back_button"
+                    android:layout_width="36dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="@{ui.isBackEnabled ? View.VISIBLE : View.INVISIBLE}">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_chevron_left"
+                        android:contentDescription="@string/search"
+                        android:tint="@color/white" />
+                </FrameLayout>
+
+                <FrameLayout
                     android:id="@+id/search_button"
                     android:layout_width="36dp"
                     android:layout_height="match_parent"

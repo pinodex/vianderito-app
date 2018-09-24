@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -22,8 +23,6 @@ import com.raphaelmarco.vianderito.databinding.ActivityHomeBinding;
 import com.raphaelmarco.vianderito.fragment.AccountFragment;
 import com.raphaelmarco.vianderito.fragment.CartFragment;
 import com.raphaelmarco.vianderito.fragment.StoreFragment;
-import com.raphaelmarco.vianderito.network.RetrofitClient;
-import com.raphaelmarco.vianderito.network.service.gateway.ClientService;
 import com.tapadoo.alerter.Alerter;
 
 public class HomeActivity extends AppCompatActivity {
@@ -57,6 +56,13 @@ public class HomeActivity extends AppCompatActivity {
 
         ((BottomNavigationView) findViewById(R.id.bottom_navigation))
                 .setOnNavigationItemSelectedListener(new NavigationItemSelectedListener());
+
+        findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((CartFragment) cartFragment).onBackButtonClicked();
+            }
+        });
 
         findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,8 +101,13 @@ public class HomeActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction()
                 .setCustomAnimations(R.anim.page_fade_in, R.anim.page_fade_out);
 
-        if (active != null)
+        if (active != null) {
+            if (active instanceof CartFragment) {
+                ((CartFragment) active).stopCamera();
+            }
+
             ft.hide(active);
+        }
 
         switch (pageId) {
             case R.id.store: active = storeFragment; break;
@@ -105,6 +116,14 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         ft.show(active).commit();
+
+        if (active instanceof CartFragment) {
+            ((CartFragment) active).startCamera();
+        }
+    }
+
+    public void setBackButtonEnable(boolean enable) {
+        ui.isBackEnabled.set(enable);
     }
 
     public void onLogout() {
@@ -145,6 +164,8 @@ public class HomeActivity extends AppCompatActivity {
     public class UiData extends BaseObservable {
 
         public ObservableInt activePage = new ObservableInt();
+
+        public ObservableBoolean isBackEnabled = new ObservableBoolean(false);
 
         @Bindable({"activePage"})
         public String getPageTitle() {

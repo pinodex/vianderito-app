@@ -1,26 +1,47 @@
 package com.raphaelmarco.vianderito.network.model.store;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Inventory {
 
+    @SerializedName("id")
     private String id;
 
+    @SerializedName("product_id")
     private String productId;
 
+    @SerializedName("eid")
     private int eid;
 
+    @SerializedName("stocks")
     private int stocks;
 
+    @SerializedName("price")
     private double price;
 
+    @SerializedName("subtotal")
+    private double subTotal;
+
+    @SerializedName("batch_date")
     private Date batchDate;
 
+    @SerializedName("expiration_date")
     private Date expirationDate;
 
+    @SerializedName("created_at")
     private Date createdAt;
 
+    @SerializedName("updated_at")
     private Date updatedAt;
+
+    @SerializedName("product")
+    private Product product;
+
+    @SerializedName("pivot")
+    private Pivot pivot;
 
     public String getId() {
         return id;
@@ -62,6 +83,14 @@ public class Inventory {
         this.price = price;
     }
 
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
+    }
+
     public Date getBatchDate() {
         return batchDate;
     }
@@ -92,5 +121,35 @@ public class Inventory {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Pivot getPivot() {
+        return pivot;
+    }
+
+    public void setPivot(Pivot pivot) {
+        this.pivot = pivot;
+    }
+
+    public static class Pivot {
+
+        @SerializedName("quantity")
+        public int quantity;
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(int quantity) {
+            this.quantity = quantity;
+        }
     }
 }

@@ -1,14 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.CartFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+        <import type="android.view.View" />
+
+        <import type="com.raphaelmarco.vianderito.fragment.CartFragment" />
+
+        <variable
+            name="transaction"
+            type="com.raphaelmarco.vianderito.network.model.cart.Transaction" />
+
+        <variable
+            name="ui"
+            type="com.raphaelmarco.vianderito.fragment.CartFragment.UiData" />
+    </data>
+
+    <RelativeLayout
+        tools:context=".fragment.CartFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Cart" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{ui.state == CartFragment.STATE_STANDBY ? View.VISIBLE : View.GONE}">
+
+            <com.budiyev.android.codescanner.CodeScannerView
+                android:id="@+id/scanner_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:autoFocusButtonColor="@android:color/white"
+                app:autoFocusButtonVisible="true"
+                app:flashButtonColor="@android:color/white"
+                app:flashButtonVisible="true"
+                app:frameColor="@android:color/white"
+                app:frameCornersSize="50dp"
+                app:frameAspectRatioWidth="1"
+                app:frameAspectRatioHeight="1"
+                app:frameSize="0.75"
+                app:frameThickness="2dp"
+                app:maskColor="#77000000"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{ui.state == CartFragment.STATE_LOADING ? View.VISIBLE : View.GONE}">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{ui.state == CartFragment.STATE_CART ? View.VISIBLE : View.GONE}">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:padding="15dp"
+                    android:background="@color/primaryDark"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/peso_price(transaction.total)}"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@color/green">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
+                        android:text="@string/pay" />
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>
