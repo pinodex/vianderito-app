@@ -197,6 +197,11 @@ public class HomeActivity extends AppCompatActivity {
         public boolean getIsAccount() {
             return R.id.account == activePage.get();
         }
+
+        @Bindable({"isBackEnabled", "activePage"})
+        public boolean getIsBackVisible() {
+            return activePage.get() == R.id.cart && isBackEnabled.get();
+        }
     }
 }
 
