@@ -83,6 +83,10 @@
     <string name="add_payment_method">Add Payment Method</string>
     <string name="view_payment_method">View Payment Method</string>
 
+    <string name="camera_permission_rationale">
+        Vianderito needs permission to use the camera to scan the QR code.
+    </string>
+
     <string name="cart_empty_message">
         The cart you scanned is empty. Please put items first then scan again.
     </string>

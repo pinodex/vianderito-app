@@ -17,7 +17,7 @@
     </data>
 
     <RelativeLayout
-        tools:context=".activity.billing.ViewPaymentMethod"
+        tools:context=".activity.billing.V"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

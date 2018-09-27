@@ -1,5 +1,6 @@
 package com.raphaelmarco.vianderito.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -33,6 +34,8 @@ import com.raphaelmarco.vianderito.network.model.cart.Transaction;
 import com.raphaelmarco.vianderito.network.service.CartService;
 
 import okhttp3.ResponseBody;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +49,8 @@ public class CartFragment extends Fragment {
     public static final int STATE_CART = 5;
 
     public static final int PAY_REQUEST = 2000;
+
+    public static final int CAMERA_REQUEST = 2005;
 
     private UiData ui = new UiData();
 
@@ -107,7 +112,14 @@ public class CartFragment extends Fragment {
         disableBackButton();
     }
 
+    @AfterPermissionGranted(CAMERA_REQUEST)
     public void startCamera() {
+        if (!hasCameraPermissions()) {
+            requestCameraPermissions();
+
+            return;
+        }
+
         codeScanner.startPreview();
     }
 
@@ -170,6 +182,17 @@ public class CartFragment extends Fragment {
                 })
                 .create()
                 .show();
+    }
+
+    private boolean hasCameraPermissions() {
+        return EasyPermissions.hasPermissions(getActivity(), Manifest.permission.CAMERA);
+    }
+
+    private void requestCameraPermissions() {
+        String rationale = getString(R.string.camera_permission_rationale);
+
+        EasyPermissions.requestPermissions(this, rationale,
+                CAMERA_REQUEST, Manifest.permission.CAMERA);
     }
 
     private void discardCart() {
@@ -262,6 +285,14 @@ public class CartFragment extends Fragment {
 
             ((HomeActivity) getActivity()).gotoHome();
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     public class Decoder implements DecodeCallback {
