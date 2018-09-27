@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.raphaelmarco.vianderito.network.model.cart.Purchase" />
+
+        <variable
+            name="ui"
+            type="com.raphaelmarco.vianderito.activity.order.OrderViewActivity.UiData" />
+    </data>
+
+    <RelativeLayout
+        tools:context=".activity.order.OrderViewActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
+
+        <ProgressBar
+            android:theme="@style/ProgressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:indeterminate="true"
+            android:layout_centerInParent="true"
+            android:visibility="@{ui.isLoading ? View.VISIBLE : View.GONE}" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{ui.isLoading ? View.GONE : View.VISIBLE}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/primaryDarkerGetStarted"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/product_spacing"
+                    android:textSize="28sp"
+                    android:textColor="@color/white"
+                    android:text="@{@string/peso_price(model.amount)}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/display_date(model.createdAt, model.createdAt, model.createdAt, model.createdAt, model.createdAt, model.createdAt)}"
+                    android:textSize="18sp"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="@{@string/n_items(model.productsCount)}" />
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="200dp"
+                    android:paddingBottom="50dp">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/products"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </FrameLayout>
+            </ScrollView>
+        </FrameLayout>
+    </RelativeLayout>
+</layout>

@@ -1,7 +1,9 @@
 package com.raphaelmarco.vianderito.network.model.cart;
 
 import com.google.gson.annotations.SerializedName;
+import com.raphaelmarco.vianderito.network.model.store.Product;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Purchase {
@@ -24,6 +26,9 @@ public class Purchase {
     @SerializedName("amount")
     public double amount;
 
+    @SerializedName("products_count")
+    public int productsCount;
+
     @SerializedName("updated_at")
     public Date updatedAt;
 
@@ -32,5 +37,8 @@ public class Purchase {
 
     @SerializedName("transaction")
     public Transaction transaction;
+
+    @SerializedName("products")
+    public ArrayList<PurchaseProduct> products;
 
 }

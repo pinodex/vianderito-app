@@ -72,12 +72,21 @@
 
     <string name="completed">Completed</string>
 
+    <string name="purchase">Purchase</string>
+    <string name="n_items">%d items</string>
+
+    <string name="display_date">%tb %td, %tY %tl:%tM %tp</string>
+
     <string name="amount_to_pay">Amount To Pay</string>
     <string name="pay_using">Pay Using</string>
 
     <string name="add_payment_method">Add Payment Method</string>
     <string name="view_payment_method">View Payment Method</string>
-    
+
+    <string name="cart_empty_message">
+        The cart you scanned is empty. Please put items first then scan again.
+    </string>
+
     <string name="no_payment_method_available">
         There is no payment method available. Do you want to add one first?
     </string>
@@ -166,6 +175,7 @@
     <string name="change_password">Change Password</string>
     <string name="payment_methods">Payment Methods</string>
     <string name="order_history">Order History</string>
+    <string name="view_order">View Order</string>
 
     <string name="last_login">Last Login</string>
     <string name="not_set">Not Set</string>

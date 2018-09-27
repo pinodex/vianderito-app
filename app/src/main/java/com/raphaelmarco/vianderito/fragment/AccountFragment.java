@@ -19,6 +19,7 @@ import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.Util;
 import com.raphaelmarco.vianderito.Vianderito;
 import com.raphaelmarco.vianderito.activity.HomeActivity;
+import com.raphaelmarco.vianderito.activity.order.OrderHistoryActivity;
 import com.raphaelmarco.vianderito.activity.billing.PaymentMethodsActivity;
 import com.raphaelmarco.vianderito.activity.password.ChangePasswordActivity;
 import com.raphaelmarco.vianderito.databinding.FragmentAccountBinding;
@@ -162,6 +163,16 @@ public class AccountFragment extends Fragment {
                     intent = new Intent(getActivity(), PaymentMethodsActivity.class);
 
                     startActivityForResult(intent, PASSWORD_CHANGE_REQUEST);
+
+                    getActivity().overridePendingTransition(
+                            R.anim.slide_from_right, R.anim.zoom_out);
+
+                    break;
+
+                case R.id.item_order_history:
+                    intent = new Intent(getActivity(), OrderHistoryActivity.class);
+
+                    startActivity(intent);
 
                     getActivity().overridePendingTransition(
                             R.anim.slide_from_right, R.anim.zoom_out);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="product_spacing">10dp</dimen>
+    <dimen name="history_spacing">5dp</dimen>
     <dimen name="account_menu_item_margin">5dp</dimen>
     <dimen name="account_menu_item_margin_spaced">15dp</dimen>
 

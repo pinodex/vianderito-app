@@ -225,7 +225,7 @@ public class PaymentMethodsActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view, Customer customer) {
-            Intent intent = new Intent(getApplicationContext(), ViewPaymentMethod.class);
+            Intent intent = new Intent(getApplicationContext(), ViewPaymentMethodActivity.class);
 
             intent.putExtra("id", customer.getId());
             intent.putExtra("last_four", customer.getLastFour());

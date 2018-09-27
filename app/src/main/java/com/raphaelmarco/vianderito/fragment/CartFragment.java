@@ -83,7 +83,7 @@ public class CartFragment extends Fragment {
 
         RecyclerView cartView = view.findViewById(R.id.cart);
 
-        cartAdapter = new CartAdapter(getActivity());
+        cartAdapter = new CartAdapter();
 
         cartView.setLayoutManager(new LinearLayoutManager(getActivity()));
         cartView.setAdapter(cartAdapter);
@@ -158,6 +158,20 @@ public class CartFragment extends Fragment {
                 .show();
     }
 
+    private void showCartEmptyMessage() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.error)
+                .setMessage(R.string.cart_empty_message)
+                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        resetCart();
+                    }
+                })
+                .create()
+                .show();
+    }
+
     private void discardCart() {
         disableBackButton();
 
@@ -210,14 +224,20 @@ public class CartFragment extends Fragment {
                     return;
                 }
 
-                ui.state.set(STATE_CART);
-
                 Transaction transaction = response.body();
+
+                if (transaction.inventories.isEmpty()) {
+                    showCartEmptyMessage();
+
+                    return;
+                }
 
                 binding.setTransaction(transaction);
 
                 cartAdapter.setData(transaction.inventories);
                 cartAdapter.notifyDataSetChanged();
+
+                ui.state.set(STATE_CART);
 
                 enableBackButton();
             }

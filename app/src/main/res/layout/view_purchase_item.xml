@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.raphaelmarco.vianderito.network.model.store.Inventory" />
+            type="com.raphaelmarco.vianderito.network.model.cart.PurchaseProduct" />
 
         <import type="android.view.View" />
     </data>
@@ -35,13 +35,13 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:text="@{model.product.name}"
+                android:text="@{model.name}"
                 android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/peso_price_with_quantity(model.pivot.quantity, model.price)}" />
+                android:text="@{@string/peso_price_with_quantity(model.quantity, model.price)}" />
         </LinearLayout>
 
         <TextView

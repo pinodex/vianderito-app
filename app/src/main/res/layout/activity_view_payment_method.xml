@@ -9,7 +9,7 @@
 
         <variable
             name="ui"
-            type="com.raphaelmarco.vianderito.activity.billing.ViewPaymentMethod.UiData" />
+            type="com.raphaelmarco.vianderito.activity.billing.ViewPaymentMethodActivity.UiData" />
 
         <variable
             name="model"

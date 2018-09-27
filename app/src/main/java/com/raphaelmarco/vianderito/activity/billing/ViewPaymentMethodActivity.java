@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ViewPaymentMethod extends AppCompatActivity {
+public class ViewPaymentMethodActivity extends AppCompatActivity {
 
     private UiData ui = new UiData();
 
@@ -36,7 +36,7 @@ public class ViewPaymentMethod extends AppCompatActivity {
 
     private ActivityViewPaymentMethodBinding binding;
 
-    public ViewPaymentMethod() {
+    public ViewPaymentMethodActivity() {
         customerService = RetrofitClient.getInstance().create(CustomerService.class);
     }
 
