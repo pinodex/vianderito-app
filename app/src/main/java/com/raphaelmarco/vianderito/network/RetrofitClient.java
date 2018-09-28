@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static final String BASE_URL_PROD = "https://vianderito-beta.raphaelmarco.com/api/v1/";
+    private static final String BASE_URL_PROD = "http://172.21.1.165:8000/api/v1/";
 
     private static final String BASE_URL_DEV = "http://10.0.2.2:8000/api/v1/";
 

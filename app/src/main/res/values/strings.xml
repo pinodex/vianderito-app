@@ -54,6 +54,10 @@
     <string name="cart">Cart</string>
     <string name="account">Account</string>
 
+    <string name="invalid_coupon">Invalid Coupon</string>
+    <string name="apply">Apply</string>
+    <string name="remove">Remove</string>
+
     <string name="total">Total</string>
     <string name="pay">Pay</string>
 
@@ -62,6 +66,9 @@
     <string name="delete">Delete</string>
     <string name="discard">Discard</string>
     <string name="discard_cart">Discard Cart</string>
+
+    <string name="have_a_coupon_code">Have a coupon code? Enter it here</string>
+
     <string name="discard_cart_confirmation">Are you sure you want to discard this cart?</string>
 
     <string name="transaction_not_found">Cannot find transaction from the scanned code</string>
@@ -170,6 +177,7 @@
     <string name="proceed">Proceed</string>
     <string name="peso_price">P%.2f</string>
     <string name="peso_price_with_quantity">%d x P%.2f</string>
+    <string name="peso_price_discounted_with_quantity">%d x P%.2f (orig P%.2f)</string>
     <string name="out_of_stock">Out of stock</string>
     <string name="search">Search</string>
     <string name="edit_profile">Edit Profile</string>

@@ -132,6 +132,8 @@ public class Inventory {
         return this.pivot.quantity * this.price;
     }
 
+
+
     public static class Pivot {
 
         @SerializedName("quantity")

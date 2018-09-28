@@ -26,4 +26,13 @@ public class Transaction {
     @SerializedName("total")
     public double total;
 
+    @SerializedName("original_total")
+    public double originalTotal;
+
+    @SerializedName("is_discounted")
+    public boolean isDiscounted;
+
+    @SerializedName("coupon")
+    public Coupon coupon;
+
 }

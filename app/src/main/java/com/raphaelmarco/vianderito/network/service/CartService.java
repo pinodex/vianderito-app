@@ -1,5 +1,7 @@
 package com.raphaelmarco.vianderito.network.service;
 
+import com.raphaelmarco.vianderito.network.model.GenericMessage;
+import com.raphaelmarco.vianderito.network.model.cart.Coupon;
 import com.raphaelmarco.vianderito.network.model.cart.Purchase;
 import com.raphaelmarco.vianderito.network.model.cart.PurchaseRequest;
 import com.raphaelmarco.vianderito.network.model.cart.Transaction;
@@ -23,5 +25,12 @@ public interface CartService {
     @POST("cart/transactions/{id}/purchase")
     Call<Purchase> purchase(@Path(value = "id", encoded =  true) String id,
                             @Body PurchaseRequest purchaseRequest);
+
+    @POST("cart/transactions/{id}/coupon")
+    Call<GenericMessage> setCoupon(@Path(value = "id", encoded =  true) String id,
+                                     @Body Coupon coupon);
+
+    @DELETE("cart/transactions/{id}/coupon")
+    Call<GenericMessage> removeCoupon(@Path(value = "id", encoded =  true) String id);
 
 }

@@ -6,8 +6,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -30,6 +32,9 @@ import com.raphaelmarco.vianderito.activity.billing.PayActivity;
 import com.raphaelmarco.vianderito.adapter.CartAdapter;
 import com.raphaelmarco.vianderito.databinding.FragmentCartBinding;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
+import com.raphaelmarco.vianderito.network.model.GenericMessage;
+import com.raphaelmarco.vianderito.network.model.ValidationError;
+import com.raphaelmarco.vianderito.network.model.cart.Coupon;
 import com.raphaelmarco.vianderito.network.model.cart.Transaction;
 import com.raphaelmarco.vianderito.network.service.CartService;
 
@@ -109,6 +114,15 @@ public class CartFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.coupon_action_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ui.getIsCouponApplicable()) {
+                    toggleCouponUsage();
+                }
+            }
+        });
+
         disableBackButton();
     }
 
@@ -139,6 +153,7 @@ public class CartFragment extends Fragment {
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.discard_cart)
                 .setMessage(R.string.discard_cart_confirmation)
+                .setCancelable(false)
                 .setPositiveButton(R.string.discard, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -160,6 +175,7 @@ public class CartFragment extends Fragment {
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.error)
                 .setMessage(R.string.transaction_not_found)
+                .setCancelable(false)
                 .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -174,10 +190,26 @@ public class CartFragment extends Fragment {
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.error)
                 .setMessage(R.string.cart_empty_message)
+                .setCancelable(false)
                 .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         resetCart();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void showInvalidCouponMessage(String message) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.invalid_coupon)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        removeCouponCode();
                     }
                 })
                 .create()
@@ -230,16 +262,23 @@ public class CartFragment extends Fragment {
 
         intent.putExtra("transaction_id", transactionId);
 
+        if (ui.hasCouponCode.get()) {
+            intent.putExtra("coupon_code", ui.couponCode.get());
+        }
+
         startActivityForResult(intent, PAY_REQUEST);
 
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.zoom_out);
     }
 
     private void loadTransaction() {
+        ui.isLoading.set(true);
+
         cartService.get(transactionId).enqueue(new Callback<Transaction>() {
             @Override
             public void onResponse(
                     @NonNull Call<Transaction> call, @NonNull Response<Transaction> response) {
+                ui.isLoading.set(false);
 
                 if (!response.isSuccessful()) {
                     showTransactionNotFoundError();
@@ -260,6 +299,11 @@ public class CartFragment extends Fragment {
                 cartAdapter.setData(transaction.inventories);
                 cartAdapter.notifyDataSetChanged();
 
+                if (transaction.coupon != null) {
+                    ui.couponCode.set(transaction.coupon.code);
+                    ui.hasCouponCode.set(true);
+                }
+
                 ui.state.set(STATE_CART);
 
                 enableBackButton();
@@ -267,11 +311,89 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<Transaction> call, @NonNull Throwable t) {
+                ui.isLoading.set(false);
+
                 t.printStackTrace();
 
                 showTransactionNotFoundError();
             }
         });
+    }
+
+    private void setCouponCode() {
+        ui.hasCouponCode.set(true);
+
+        Coupon coupon = new Coupon();
+        coupon.code = ui.couponCode.get();
+
+        ui.isLoading.set(true);
+
+        cartService.setCoupon(transactionId, coupon).enqueue(new Callback<GenericMessage>() {
+            @Override
+            public void onResponse(@NonNull Call<GenericMessage> call,
+                                   @NonNull Response<GenericMessage> response) {
+
+                ui.isLoading.set(false);
+
+                if (!response.isSuccessful()) {
+                    ValidationError validationError = new ValidationError.Parser(response).parse();
+
+                    showInvalidCouponMessage(validationError.getMessage());
+
+                    return;
+                }
+
+                ui.hasCouponCode.set(true);
+
+                loadTransaction();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenericMessage> call, @NonNull Throwable t) {
+                ui.isLoading.set(false);
+
+                showInvalidCouponMessage("An error occurred");
+
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void removeCouponCode() {
+        ui.isLoading.set(true);
+
+        cartService.removeCoupon(transactionId).enqueue(new Callback<GenericMessage>() {
+            @Override
+            public void onResponse(
+                    @NonNull Call<GenericMessage> call, @NonNull Response<GenericMessage> response) {
+
+                if (response.isSuccessful()) {
+                    ui.couponCode.set("");
+                    ui.hasCouponCode.set(false);
+                }
+
+                ui.isLoading.set(false);
+
+                loadTransaction();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenericMessage> call, @NonNull Throwable t) {
+                t.printStackTrace();
+
+                ui.isLoading.set(false);
+            }
+        });
+    }
+
+    private void toggleCouponUsage() {
+        if (ui.hasCouponCode.get()) {
+            removeCouponCode();
+
+            return;
+        }
+
+        setCouponCode();
     }
 
     @Override
@@ -315,9 +437,23 @@ public class CartFragment extends Fragment {
 
     public class UiData extends BaseObservable {
 
-        public ObservableBoolean isLoading = new ObservableBoolean();
+        public ObservableBoolean isLoading = new ObservableBoolean(false);
 
         public ObservableInt state = new ObservableInt(STATE_STANDBY);
+
+        public ObservableBoolean hasCouponCode = new ObservableBoolean(false);
+
+        public ObservableField<String> couponCode = new ObservableField<>("");
+
+        @Bindable({"couponCode"})
+        public boolean getIsCouponApplicable() {
+            return !couponCode.get().isEmpty() || isLoading.get();
+        }
+
+        @Bindable({"state", "isLoading"})
+        public boolean getIsCartLoading() {
+            return state.get() == STATE_CART && isLoading.get();
+        }
 
     }
 

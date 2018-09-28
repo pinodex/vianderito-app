@@ -23,6 +23,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/progress_bar"
+            android:theme="@style/ProgressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-6dp"
+            android:elevation="1dp"
+            android:indeterminate="true"
+            android:fitsSystemWindows="true"
+            android:visibility="@{ui.isCartLoading? View.VISIBLE : View.INVISIBLE}" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -70,46 +82,137 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:padding="15dp"
-                    android:background="@color/primaryDark"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:baselineAligned="true"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/total"
-                        android:textColor="@color/white" />
+                        android:layout_weight="3"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:inputType="text"
+                            android:hint="@string/have_a_coupon_code"
+                            android:text="@={ui.couponCode}"
+                            android:visibility="@{ui.hasCouponCode ? View.GONE : View.VISIBLE}"
+                            android:enabled="@{!ui.isLoading}"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:text="@{ui.couponCode}"
+                            android:visibility="@{ui.hasCouponCode ? View.VISIBLE: View.GONE}"/>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/coupon_action_button"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/peso_price(transaction.total)}"
-                        android:textSize="20sp"
-                        android:textColor="@color/white"/>
+                        android:layout_weight="1"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_gravity="center"
+                        android:alpha="@{ui.isCouponApplicable ? 1.0f : 0.3f}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:text="@string/apply"
+                            android:visibility="@{ui.hasCouponCode ? View.GONE : View.VISIBLE}"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:text="@string/remove"
+                            android:visibility="@{ui.hasCouponCode ? View.VISIBLE: View.GONE}"/>
+                    </FrameLayout>
                 </LinearLayout>
 
-                <RelativeLayout
-                    android:id="@+id/pay_button"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:background="@color/green">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="26sp"
-                        android:text="@string/pay" />
-                </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:padding="15dp"
+                        android:background="@color/primaryDark"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/total"
+                            android:textColor="@color/white" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:background="@drawable/strikethrough"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
+                                android:text="@{@string/peso_price(transaction.originalTotal)}"
+                                android:textSize="20sp"
+                                android:textColor="@color/white"
+                                android:visibility="@{transaction.total != transaction.originalTotal ? View.VISIBLE : View.GONE}"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{@string/peso_price(transaction.total)}"
+                                android:textSize="20sp"
+                                android:textColor="@color/white"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/pay_button"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@color/green"
+                        android:alpha="@{!ui.isLoading ? 1.0f : 0.5f}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="26sp"
+                            android:text="@string/pay" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
