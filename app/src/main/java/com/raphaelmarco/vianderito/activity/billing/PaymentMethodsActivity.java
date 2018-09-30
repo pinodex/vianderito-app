@@ -106,6 +106,7 @@ public class PaymentMethodsActivity extends AppCompatActivity {
 
     private void getPaymentMethods() {
         ui.isListLoading.set(true);
+        ui.isPaymentMethodNone.set(false);
 
         customerService.get().enqueue(new Callback<ArrayList<Customer>>() {
             @Override
@@ -114,6 +115,10 @@ public class PaymentMethodsActivity extends AppCompatActivity {
                     @NonNull Response<ArrayList<Customer>> response) {
 
                 ui.isListLoading.set(false);
+
+                if (response.body().isEmpty()) {
+                    ui.isPaymentMethodNone.set(true);
+                }
 
                 adapter.setData(response.body());
                 adapter.notifyDataSetChanged();
@@ -243,6 +248,8 @@ public class PaymentMethodsActivity extends AppCompatActivity {
         public ObservableBoolean isTokenLoading = new ObservableBoolean(false);
 
         public ObservableBoolean isListLoading = new ObservableBoolean(false);
+
+        public ObservableBoolean isPaymentMethodNone = new ObservableBoolean(false);
 
         @Bindable({"isTokenLoading", "isListLoading"})
         public boolean getIsLoading() {

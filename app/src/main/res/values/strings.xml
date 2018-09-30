@@ -77,6 +77,10 @@
         No payment method saved on account. Please add one first to complete your transaction.
     </string>
 
+    <string name="no_payment_method_alt">
+        No payment method saved on account. Add a payment method now to make your next purchase easier.
+    </string>
+
     <string name="completed">Completed</string>
 
     <string name="purchase">Purchase</string>

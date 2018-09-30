@@ -72,7 +72,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WindowActivity" />
         <activity
-            android:name=".activity.billing.ViewPaymentMethod"
+            android:name=".activity.billing.ViewPaymentMethodActivity"
             android:label="@string/view_payment_method"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WindowActivity" />
