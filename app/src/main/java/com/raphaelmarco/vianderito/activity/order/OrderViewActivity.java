@@ -3,16 +3,14 @@ package com.raphaelmarco.vianderito.activity.order;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
-import android.graphics.Rect;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.raphaelmarco.vianderito.R;
+import com.raphaelmarco.vianderito.activity.AuthenticatedActivity;
 import com.raphaelmarco.vianderito.adapter.OrderViewAdapter;
 import com.raphaelmarco.vianderito.databinding.ActivityOrderViewBinding;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
@@ -23,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderViewActivity extends AppCompatActivity {
+public class OrderViewActivity extends AuthenticatedActivity {
 
     private UiData ui = new UiData();
 
@@ -83,10 +81,12 @@ public class OrderViewActivity extends AppCompatActivity {
 
                 Purchase purchase = response.body();
 
-                binding.setModel(purchase);
+                if (purchase != null) {
+                    binding.setModel(purchase);
 
-                adapter.setData(purchase.products);
-                adapter.notifyDataSetChanged();
+                    adapter.setData(purchase.products);
+                    adapter.notifyDataSetChanged();
+                }
 
                 ui.isLoading.set(false);
             }

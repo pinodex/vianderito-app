@@ -10,7 +10,6 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.raphaelmarco.vianderito.R;
+import com.raphaelmarco.vianderito.activity.AuthenticatedActivity;
 import com.raphaelmarco.vianderito.adapter.PaymentMethodListAdapter;
 import com.raphaelmarco.vianderito.databinding.ActivityPayBinding;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
@@ -37,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PayActivity extends AppCompatActivity {
+public class PayActivity extends AuthenticatedActivity {
 
     public static final int ADD_PAYMENT_METHOD = 3000;
 
@@ -130,7 +130,7 @@ public class PayActivity extends AppCompatActivity {
 
                 ui.isPaymentMethodLoading.set(false);
 
-                if (response.body().isEmpty()) {
+                if (response.body() == null || response.body().isEmpty()) {
                     ui.isPaymentMethodNone.set(true);
 
                     showNoAvailablePaymentMethod();
@@ -167,9 +167,9 @@ public class PayActivity extends AppCompatActivity {
 
                 ui.isTransactionLoading.set(false);
 
-                Transaction transaction = response.body();
-
-                binding.setTransaction(transaction);
+                if (response.body() != null) {
+                    binding.setTransaction(response.body());
+                }
             }
 
             @Override

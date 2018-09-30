@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
-import android.graphics.Rect;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.raphaelmarco.vianderito.R;
+import com.raphaelmarco.vianderito.activity.AuthenticatedActivity;
 import com.raphaelmarco.vianderito.adapter.OrderHistoryAdapter;
 import com.raphaelmarco.vianderito.databinding.ActivityOrderHistoryBinding;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
@@ -26,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderHistoryActivity extends AppCompatActivity {
+public class OrderHistoryActivity extends AuthenticatedActivity {
 
     private UiData ui = new UiData();
 
@@ -98,8 +97,10 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
                 ArrayList<Purchase> purchases = response.body();
 
-                adapter.setData(purchases);
-                adapter.notifyDataSetChanged();
+                if (purchases != null) {
+                    adapter.setData(purchases);
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override

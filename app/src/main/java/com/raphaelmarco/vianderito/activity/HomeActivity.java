@@ -12,7 +12,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -25,7 +24,7 @@ import com.raphaelmarco.vianderito.fragment.CartFragment;
 import com.raphaelmarco.vianderito.fragment.StoreFragment;
 import com.tapadoo.alerter.Alerter;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AuthenticatedActivity {
 
     private static final int PROFILE_EDIT_REQUEST = 1001;
 
@@ -98,22 +97,22 @@ public class HomeActivity extends AppCompatActivity {
     private void switchPage(int pageId) {
         if (ui.activePage.get() == pageId) return;
 
-                ui.activePage.set(pageId);
+        ui.activePage.set(pageId);
 
-                FragmentTransaction ft = fm.beginTransaction()
-                        .setCustomAnimations(R.anim.page_fade_in, R.anim.page_fade_out);
+        FragmentTransaction ft = fm.beginTransaction()
+                .setCustomAnimations(R.anim.page_fade_in, R.anim.page_fade_out);
 
-                if (active != null) {
-                    if (active instanceof CartFragment) {
-                        ((CartFragment) active).stopCamera();
-                    }
+        if (active != null) {
+            if (active instanceof CartFragment) {
+                ((CartFragment) active).stopCamera();
+            }
 
-                    ft.hide(active);
-                }
+            ft.hide(active);
+        }
 
-                switch (pageId) {
-                    case R.id.store: active = storeFragment; break;
-                    case R.id.cart: active = cartFragment; break;
+        switch (pageId) {
+            case R.id.store: active = storeFragment; break;
+            case R.id.cart: active = cartFragment; break;
             case R.id.account: active = accountFragment; break;
         }
 
@@ -130,6 +129,10 @@ public class HomeActivity extends AppCompatActivity {
 
     public void gotoHome() {
         switchPage(R.id.store);
+    }
+
+    public boolean isCartPageActive() {
+        return ui.activePage.get() == R.id.cart;
     }
 
     public void onLogout() {

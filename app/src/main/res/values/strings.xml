@@ -67,6 +67,9 @@
     <string name="discard">Discard</string>
     <string name="discard_cart">Discard Cart</string>
 
+    <string name="login_expired">Login Expired</string>
+    <string name="login_expired_message">Your login session has been expired. Please login again.</string>
+
     <string name="have_a_coupon_code">Have a coupon code? Enter it here</string>
 
     <string name="discard_cart_confirmation">Are you sure you want to discard this cart?</string>

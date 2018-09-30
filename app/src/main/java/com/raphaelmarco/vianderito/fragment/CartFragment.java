@@ -134,7 +134,9 @@ public class CartFragment extends Fragment {
             return;
         }
 
-        codeScanner.startPreview();
+        if (((HomeActivity) getActivity()).isCartPageActive()) {
+            codeScanner.startPreview();
+        }
     }
 
     public void stopCamera() {
@@ -288,7 +290,7 @@ public class CartFragment extends Fragment {
 
                 Transaction transaction = response.body();
 
-                if (transaction.inventories.isEmpty()) {
+                if (transaction == null || transaction.inventories.isEmpty()) {
                     showCartEmptyMessage();
 
                     return;

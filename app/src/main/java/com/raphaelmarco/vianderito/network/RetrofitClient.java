@@ -8,6 +8,8 @@ import com.google.gson.GsonBuilder;
 import com.raphaelmarco.vianderito.Vianderito;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -21,6 +23,8 @@ public class RetrofitClient {
     private static final String BASE_URL_PROD = "https://beta.vianderito.xyz/api/v1/";
 
     private static final String BASE_URL_DEV = "http://10.0.2.2:8000/api/v1/";
+
+    private static ArrayList<OnUnauthorizedListener> onUnauthorizedListeners = new ArrayList<>();
 
     private static Retrofit retrofit;
 
@@ -57,7 +61,13 @@ public class RetrofitClient {
                             .header("Authorization",
                                     String.format("Bearer %s", getJwtToken()));
 
-                    return chain.proceed(requestBuilder.build());
+                    Response response = chain.proceed(requestBuilder.build());
+
+                    if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                        invokeOnUnauthorized();
+                    }
+
+                    return response;
                 }
             }).build();
 
@@ -69,6 +79,24 @@ public class RetrofitClient {
         }
 
         return retrofit;
+    }
+
+    public static void registerOnUnauthorizedListener(OnUnauthorizedListener listener) {
+        onUnauthorizedListeners.add(listener);
+    }
+
+    public static void unregisterOnUnauthorizedListener(OnUnauthorizedListener listener) {
+        onUnauthorizedListeners.remove(listener);
+    }
+
+    private static void invokeOnUnauthorized() {
+        for (OnUnauthorizedListener listener : onUnauthorizedListeners) {
+            listener.onUnauthorizedListener();
+        }
+    }
+
+    public interface OnUnauthorizedListener {
+        void onUnauthorizedListener();
     }
 
 }

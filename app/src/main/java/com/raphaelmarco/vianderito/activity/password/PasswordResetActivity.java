@@ -141,7 +141,9 @@ public class PasswordResetActivity extends AppCompatActivity {
 
                 ResetResponse resetResponse = response.body();
 
-                startPasswordChangeActivity(resetResponse.getUserId(), resetResponse.getToken());
+                if (resetResponse != null)
+                    startPasswordChangeActivity(
+                            resetResponse.getUserId(), resetResponse.getToken());
 
                 finish();
             }
@@ -171,7 +173,10 @@ public class PasswordResetActivity extends AppCompatActivity {
                     return;
                 }
 
-                startPasswordChangeActivity(response.body().getUserId(), null);
+                ResetResponse resetResponse = response.body();
+
+                if (resetResponse != null)
+                    startPasswordChangeActivity(resetResponse.getUserId(), null);
 
                 finish();
             }

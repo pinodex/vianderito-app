@@ -8,12 +8,12 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.raphaelmarco.vianderito.R;
+import com.raphaelmarco.vianderito.activity.AuthenticatedActivity;
 import com.raphaelmarco.vianderito.databinding.ActivityViewPaymentMethodBinding;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
 import com.raphaelmarco.vianderito.network.model.gateway.PaymentMethod;
@@ -24,15 +24,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ViewPaymentMethodActivity extends AppCompatActivity {
+public class ViewPaymentMethodActivity extends AuthenticatedActivity {
 
     private UiData ui = new UiData();
 
-    private PaymentMethod paymentMethod = new PaymentMethod();
-
     private CustomerService customerService;
 
-    private String id, lastFour, expirationMonth, expirationYear;
+    private String id;
 
     private ActivityViewPaymentMethodBinding binding;
 
@@ -50,9 +48,10 @@ public class ViewPaymentMethodActivity extends AppCompatActivity {
         binding.setUi(ui);
 
         id = getIntent().getStringExtra("id");
-        lastFour = getIntent().getStringExtra("last_four");
-        expirationMonth = getIntent().getStringExtra("expiration_month");
-        expirationYear = getIntent().getStringExtra("expiration_year");
+
+        String lastFour = getIntent().getStringExtra("last_four");
+        String expirationMonth = getIntent().getStringExtra("expiration_month");
+        String expirationYear = getIntent().getStringExtra("expiration_year");
 
         ui.cardNumber.set("**** **** **** " + lastFour);
         ui.expirationMonth.set(expirationMonth);
@@ -77,9 +76,9 @@ public class ViewPaymentMethodActivity extends AppCompatActivity {
             @Override
             public void onResponse(
                     @NonNull Call<PaymentMethod> call, @NonNull Response<PaymentMethod> response) {
-                ui.isLoading.set(false);
 
                 binding.setModel(response.body());
+                ui.isLoading.set(false);
             }
 
             @Override

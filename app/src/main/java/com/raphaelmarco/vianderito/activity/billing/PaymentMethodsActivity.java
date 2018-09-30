@@ -10,7 +10,6 @@ import android.databinding.ObservableBoolean;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.raphaelmarco.vianderito.R;
+import com.raphaelmarco.vianderito.activity.AuthenticatedActivity;
 import com.raphaelmarco.vianderito.adapter.PaymentMethodListAdapter;
 import com.raphaelmarco.vianderito.binding.ValidationErrorData;
 import com.raphaelmarco.vianderito.databinding.ActivityPaymentMethodsBinding;
@@ -34,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PaymentMethodsActivity extends AppCompatActivity {
+public class PaymentMethodsActivity extends AuthenticatedActivity {
 
     private static final int ADD_PAYMENT_METHOD = 5000;
 
@@ -116,8 +116,10 @@ public class PaymentMethodsActivity extends AppCompatActivity {
 
                 ui.isListLoading.set(false);
 
-                if (response.body().isEmpty()) {
+                if (response.body() == null || response.body().isEmpty()) {
                     ui.isPaymentMethodNone.set(true);
+
+                    return;
                 }
 
                 adapter.setData(response.body());
@@ -139,9 +141,17 @@ public class PaymentMethodsActivity extends AppCompatActivity {
         clientService.obtainToken().enqueue(new Callback<Token>() {
             @Override
             public void onResponse(@NonNull Call<Token> call, @NonNull Response<Token> response) {
-                clientToken = response.body().getToken();
+                if (response.body() != null) {
+                    clientToken = response.body().getToken();
+
+                    ui.isTokenLoading.set(false);
+
+                    return;
+                }
 
                 ui.isTokenLoading.set(false);
+
+                showClientTokenError();
             }
 
             @Override

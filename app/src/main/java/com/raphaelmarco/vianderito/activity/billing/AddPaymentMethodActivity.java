@@ -5,7 +5,6 @@ import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,7 @@ import com.braintreepayments.api.models.CardBuilder;
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.braintreepayments.cardform.view.CardForm;
 import com.raphaelmarco.vianderito.R;
+import com.raphaelmarco.vianderito.activity.AuthenticatedActivity;
 import com.raphaelmarco.vianderito.binding.ValidationErrorData;
 import com.raphaelmarco.vianderito.binding.billing.CustomerData;
 import com.raphaelmarco.vianderito.databinding.ActivityAddPaymentMethodBinding;
@@ -34,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddPaymentMethodActivity extends AppCompatActivity implements
+public class AddPaymentMethodActivity extends AuthenticatedActivity implements
         PaymentMethodNonceCreatedListener, BraintreeErrorListener {
 
     private UiData ui = new UiData();
