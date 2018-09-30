@@ -94,8 +94,9 @@ public class AddPaymentMethodActivity extends AppCompatActivity implements
         findViewById(R.id.btn_add_payment_method).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buildCard();
+                validationError.clear();
 
+                buildCard();
                 tokenizeCard();
             }
         });
