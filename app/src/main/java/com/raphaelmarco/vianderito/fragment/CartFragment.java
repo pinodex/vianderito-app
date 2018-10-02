@@ -18,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +32,13 @@ import com.raphaelmarco.vianderito.activity.HomeActivity;
 import com.raphaelmarco.vianderito.activity.billing.PayActivity;
 import com.raphaelmarco.vianderito.adapter.CartAdapter;
 import com.raphaelmarco.vianderito.databinding.FragmentCartBinding;
+import com.raphaelmarco.vianderito.helper.CartItemTouchHelper;
 import com.raphaelmarco.vianderito.network.RetrofitClient;
 import com.raphaelmarco.vianderito.network.model.GenericMessage;
 import com.raphaelmarco.vianderito.network.model.ValidationError;
 import com.raphaelmarco.vianderito.network.model.cart.Coupon;
 import com.raphaelmarco.vianderito.network.model.cart.Transaction;
+import com.raphaelmarco.vianderito.network.model.store.Inventory;
 import com.raphaelmarco.vianderito.network.service.CartService;
 
 import okhttp3.ResponseBody;
@@ -101,6 +104,12 @@ public class CartFragment extends Fragment {
         cartView.addItemDecoration(new SpacesItemDecoration(
                 getResources().getDimensionPixelSize(R.dimen.product_spacing)
         ));
+
+        ItemTouchHelperListener itemTouchHelperListener = new ItemTouchHelperListener();
+        CartItemTouchHelper cartItemTouchHelper = new CartItemTouchHelper(
+                0, ItemTouchHelper.LEFT, itemTouchHelperListener);
+
+        new ItemTouchHelper(cartItemTouchHelper).attachToRecyclerView(cartView);
 
         CodeScannerView scannerView = view.findViewById(R.id.scanner_view);
         codeScanner = new CodeScanner(getActivity(), scannerView);
@@ -173,8 +182,12 @@ public class CartFragment extends Fragment {
 
     }
 
-    private void showTransactionNotFoundError() {
-        new AlertDialog.Builder(getActivity())
+    private void showTransactionLoadError() {
+        showTransactionLoadError(null);
+    }
+
+    private void showTransactionLoadError(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.error)
                 .setMessage(R.string.transaction_not_found)
                 .setCancelable(false)
@@ -183,9 +196,13 @@ public class CartFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         discardCart();
                     }
-                })
-                .create()
-                .show();
+                });
+
+        if (message != null) {
+            builder.setMessage(message);
+        }
+
+        builder.create().show();
     }
 
     private void showCartEmptyMessage() {
@@ -238,7 +255,6 @@ public class CartFragment extends Fragment {
             @Override
             public void onResponse(
                     @NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-
                 resetCart();
             }
 
@@ -273,17 +289,34 @@ public class CartFragment extends Fragment {
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.zoom_out);
     }
 
-    private void loadTransaction() {
+    private void loadTransaction(boolean take) {
         ui.isLoading.set(true);
 
-        cartService.get(transactionId).enqueue(new Callback<Transaction>() {
+        Call<Transaction> call = cartService.get(transactionId);
+
+        if (take) {
+            call = cartService.take(transactionId);
+        }
+
+        call.enqueue(new Callback<Transaction>() {
             @Override
             public void onResponse(
-                    @NonNull Call<Transaction> call, @NonNull Response<Transaction> response) {
+                    @NonNull Call<Transaction> call,
+                    @NonNull Response<Transaction> response) {
+
                 ui.isLoading.set(false);
 
                 if (!response.isSuccessful()) {
-                    showTransactionNotFoundError();
+                    if (response.code() == 422) {
+                        ValidationError validationError =
+                                new ValidationError.Parser(response).parse();
+
+                        showTransactionLoadError(validationError.getMessage());
+
+                        return;
+                    }
+
+                    showTransactionLoadError();
 
                     return;
                 }
@@ -317,7 +350,31 @@ public class CartFragment extends Fragment {
 
                 t.printStackTrace();
 
-                showTransactionNotFoundError();
+                showTransactionLoadError();
+            }
+        });
+    }
+
+    private void removeItem(Inventory inventory) {
+        String inventoryId = inventory.getId();
+
+        ui.isLoading.set(true);
+
+        cartService.removeItem(transactionId, inventoryId).enqueue(new Callback<Transaction>() {
+            @Override
+            public void onResponse(@NonNull Call<Transaction> call,
+                                   @NonNull Response<Transaction> response) {
+
+                ui.isLoading.set(false);
+
+                loadTransaction(false);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Transaction> call, @NonNull Throwable t) {
+                t.printStackTrace();
+
+                ui.isLoading.set(false);
             }
         });
     }
@@ -347,7 +404,7 @@ public class CartFragment extends Fragment {
 
                 ui.hasCouponCode.set(true);
 
-                loadTransaction();
+                loadTransaction(false);
             }
 
             @Override
@@ -376,7 +433,7 @@ public class CartFragment extends Fragment {
 
                 ui.isLoading.set(false);
 
-                loadTransaction();
+                loadTransaction(false);
             }
 
             @Override
@@ -416,7 +473,22 @@ public class CartFragment extends Fragment {
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+        EasyPermissions.onRequestPermissionsResult(
+                requestCode, permissions, grantResults, this);
+    }
+
+    public class ItemTouchHelperListener implements
+            CartItemTouchHelper.RecyclerItemTouchHelperListener {
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+            int pos = viewHolder.getAdapterPosition();
+
+            Inventory inventory = cartAdapter.getItem(pos);
+
+            removeItem(inventory);
+
+            cartAdapter.removeItem(pos);
+        }
     }
 
     public class Decoder implements DecodeCallback {
@@ -431,7 +503,7 @@ public class CartFragment extends Fragment {
 
                     ui.state.set(STATE_LOADING);
 
-                    loadTransaction();
+                    loadTransaction(true);
                 }
             });
         }
@@ -469,7 +541,7 @@ public class CartFragment extends Fragment {
         @Override
         public void getItemOffsets(Rect outRect, View view,
                                    RecyclerView parent, RecyclerView.State state) {
-            outRect.top = space;
+            outRect.bottom = space;
         }
     }
 }

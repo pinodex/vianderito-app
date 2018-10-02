@@ -13,11 +13,19 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface CartService {
 
     @GET("cart/transactions/{id}")
     Call<Transaction> get(@Path(value = "id", encoded =  true) String id);
+
+    @POST("cart/transactions/{id}")
+    Call<Transaction> take(@Path(value = "id", encoded =  true) String id);
+
+    @DELETE("cart/transactions/{id}/item")
+    Call<Transaction> removeItem(@Path(value = "id", encoded =  true) String transactionId,
+                                 @Query("inventory_id") String inventoryId);
 
     @DELETE("cart/transactions/{id}")
     Call<ResponseBody> delete(@Path(value = "id", encoded =  true) String id);

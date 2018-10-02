@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.raphaelmarco.vianderito.R;
 import com.raphaelmarco.vianderito.databinding.ViewCartItemBinding;
@@ -50,11 +51,26 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return data.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public Inventory getItem(int index) {
+        return data.get(index);
+    }
+
+    public void removeItem(int index) {
+        data.remove(index);
+
+        notifyItemRemoved(index);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ViewCartItemBinding binding;
 
-        public ViewHolder(ViewCartItemBinding binding) {
+        private RelativeLayout background, foreground;
+
+        ViewHolder(ViewCartItemBinding binding) {
             super(binding.getRoot());
+
+            background = binding.getRoot().findViewById(R.id.background);
+            foreground = binding.getRoot().findViewById(R.id.foreground);
 
             this.binding = binding;
         }
@@ -63,6 +79,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             binding.setModel(model);
 
             binding.executePendingBindings();
+        }
+
+        public RelativeLayout getBackground() {
+            return background;
+        }
+
+        public RelativeLayout getForeground() {
+            return foreground;
         }
     }
 }
