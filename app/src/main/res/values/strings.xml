@@ -89,6 +89,11 @@
     <string name="purchase">Purchase</string>
     <string name="n_items">%d items</string>
 
+    <plurals name="n_items">
+        <item quantity="one">%d item</item>
+        <item quantity="other">%d items</item>
+    </plurals>
+
     <string name="display_date">%tb %td, %tY %tl:%tM %tp</string>
 
     <string name="amount_to_pay">Amount To Pay</string>

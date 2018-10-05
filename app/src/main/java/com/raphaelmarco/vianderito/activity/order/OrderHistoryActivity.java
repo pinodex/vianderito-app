@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -52,6 +53,9 @@ public class OrderHistoryActivity extends AuthenticatedActivity {
         RecyclerView orderHistory = findViewById(R.id.order_history);
 
         orderHistory.setLayoutManager(new LinearLayoutManager(this));
+
+        orderHistory.addItemDecoration(
+                new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         adapter = new OrderHistoryAdapter();
         adapter.setOnClickListener(new OrderHistoryAdapter.OnClickListener() {

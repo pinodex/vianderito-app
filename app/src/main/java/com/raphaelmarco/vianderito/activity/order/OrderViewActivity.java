@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -54,6 +55,9 @@ public class OrderViewActivity extends AuthenticatedActivity {
         RecyclerView productsView = findViewById(R.id.products);
 
         productsView.setLayoutManager(new LinearLayoutManager(this));
+
+        productsView.addItemDecoration(
+                new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         adapter = new OrderViewAdapter();
 

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -101,9 +102,8 @@ public class CartFragment extends Fragment {
         cartView.setLayoutManager(new LinearLayoutManager(getActivity()));
         cartView.setAdapter(cartAdapter);
 
-        cartView.addItemDecoration(new SpacesItemDecoration(
-                getResources().getDimensionPixelSize(R.dimen.product_spacing)
-        ));
+        cartView.addItemDecoration(
+                new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
         ItemTouchHelperListener itemTouchHelperListener = new ItemTouchHelperListener();
         CartItemTouchHelper cartItemTouchHelper = new CartItemTouchHelper(
@@ -269,6 +269,9 @@ public class CartFragment extends Fragment {
 
     private void resetCart() {
         transactionId = null;
+
+        ui.couponCode.set("");
+        ui.hasCouponCode.set(false);
 
         ui.state.set(STATE_STANDBY);
 
@@ -529,19 +532,5 @@ public class CartFragment extends Fragment {
             return state.get() == STATE_CART && isLoading.get();
         }
 
-    }
-
-    private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-            outRect.bottom = space;
-        }
     }
 }

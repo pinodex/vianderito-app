@@ -26,6 +26,9 @@ public class Purchase {
     @SerializedName("amount")
     public double amount;
 
+    @SerializedName("discounted_amount")
+    public double discountedAmount;
+
     @SerializedName("products_count")
     public int productsCount;
 
